@@ -163,6 +163,7 @@
                     // 表单校验+密码框校验
                     if(valid && this.checkConfirmPwd()){
                         var registerUser = {};
+                        this.user.birth = lab.formatDate(this.user.birth);
                         utils.assign(registerUser,this.user);
                         axios.post("userRegister",registerUser).then(({data}) => {
                             if (data.flag){

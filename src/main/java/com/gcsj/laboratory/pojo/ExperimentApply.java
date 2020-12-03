@@ -1,6 +1,9 @@
 package com.gcsj.laboratory.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.Id;
@@ -9,6 +12,9 @@ import javax.persistence.Transient;
 import java.util.Date;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "experi_apply")
 public class ExperimentApply {
     @Id

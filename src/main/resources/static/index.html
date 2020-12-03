@@ -277,6 +277,7 @@
 
             },
             update_user() {
+                this.edit_user.birth = lab.formatDate(this.edit_user.birth);
                 axios.post("updateUser/" + this.edit_user.id, this.edit_user).then(({data}) => {
                     if (data.flag) {
                         this.$message.success("修改成功");
