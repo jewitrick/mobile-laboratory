@@ -30,6 +30,7 @@ public interface ExperimentApplyMapper extends Mapper<ExperimentApply> {
                         "</if>" +
                         " and user_id in (select user_id from user_school where school_id = #{schoolId})" +
                     "</where>" +
+                " order by state" +
             "</script>")
     List<ExperimentApply> findAllBySchoolId(@Param("schoolId") Long schoolId,
                                             @Param("state") Long state);
@@ -44,6 +45,7 @@ public interface ExperimentApplyMapper extends Mapper<ExperimentApply> {
                          " and user_id in (select user_id from user_school where school_id in " +
                                 " (select id from school where edu_id = #{eduId}))" +
                     "</where>" +
+                " order by state" +
             "</script>")
     List<ExperimentApply> findAllByEduId(@Param("eduId") Long eduId,
                                             @Param("state") Long state);

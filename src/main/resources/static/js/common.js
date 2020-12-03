@@ -234,7 +234,7 @@ Date.prototype.format = function (format) {
         "S": this.getMilliseconds() //millisecond
     };
     if (/(y+)/.test(format)) {
-        format = format.replace(RegExp.$1, (this.getFulyxtear() + "").substr(4 - RegExp.$1.length));
+        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
     }
     for (var k in o) {
         if (new RegExp("(" + k + ")").test(format)) {
@@ -523,7 +523,7 @@ axios.defaults.timeout = 30000;
 axios.defaults.withCredentials = true
 
 // 配置对象
-const yxt = yixuetang = {
+const lab = yixuetang = {
     /**
      * 对encodeURI()编码过的 URI 进行解码。并且获取其中的指定参数
      * @param name

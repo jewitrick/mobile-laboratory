@@ -180,9 +180,11 @@
                 })
             },
             insertExperimentApply() {
+                this.experiment.experi_date = lab.formatDate(this.experiment.experi_date);
                 axios.post("experimentApply/" + this.user.id, this.experiment).then(({data}) => {
                     if (data.flag) {
-                        this.$message.success(data.message)
+                        this.$message.success(data.message);
+                        location.href = "school.html";
                     } else {
                         this.$message.error(data.message)
                     }

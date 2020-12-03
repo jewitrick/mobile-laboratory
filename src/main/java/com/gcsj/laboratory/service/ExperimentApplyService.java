@@ -43,6 +43,7 @@ public class ExperimentApplyService {
     public CommonResponse<ExperimentApply> insert(long id, ExperimentApply experimentApply) {
         experimentApply.setUser_id(id);
         experimentApply.setState(0);
+        experimentApply.setResult("请等待教育局审核");
         int i = this.experimentApplyMapper.insert(experimentApply);
         if (i == 1) {
             return new CommonResponse<>(true, "申请成功", null);
