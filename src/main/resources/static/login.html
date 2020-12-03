@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录页</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.13.2/theme-chalk/index.css">
+</head>
+<body>
+<div id="app">
+    <div style="position: fixed; margin: 60px auto auto 480px; text-align: center;">
+        <div style="padding-bottom: 10px;">
+            <h2>用户登录</h2>
+        </div>
+        <el-card style="width: 450px;height: 350px;">
+            <el-form ref="user" :model="user" style="margin: 50px" inline="true">
+                <el-form-item label="用户名:" prop="username">
+                    <el-input prefix-icon="el-icon-user" placeholder="请输入用户名" v-model="user.username" autocomplete="off"
+                              clearable></el-input>
+                </el-form-item>
+                <el-form-item label="密    码 :" prop="password">
+                    <el-input prefix-icon="el-icon-lock" type="password" placeholder="请输入密码" v-model="user.password"
+                              show-password></el-input>
+                </el-form-item>
+                <el-form-item style="padding-top: 25px;">
+                    <el-button type="primary" @click="login" style="margin-left: 80px;">登录</el-button>
+                    <span style="font-size: small;padding-left: 10px;">还没账号?</span>
+                    <el-link type="primary" :underline="false" href="register.html" style="font-size: 10px;">点击注册
+                    </el-link>
+                </el-form-item>
+            </el-form>
+        </el-card>
+    </div>
+</div>
+</body>
+<script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.bootcss.com/element-ui/2.13.2/index.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+<script src="js/common.js"></script>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            user: {
+                username: "",
+                password: ""
+            },
+        },
+        methods: {
+            login() {
+                var loginUser = {};
+                utils.assign(loginUser, this.user);
+                axios.post("/login", loginUser).then(({data}) => {
+                    if (data.flag) {
+                        let user = data.data[0];
+                        if (user.role_id === 3){
+                            //判定角色为学校
+                            location.href="school.html"
+                        }else if(user.role_id === 1){
+                            //判定角色为调度中心
+                            location.href="index.html"
+                        }else if(user.role_id === 2){
+                            //判定角色为教育局
+                            location.href="eubreau.html"
+                        }
+                    } else {
+                        this.$message.error(data.message)
+                    }
+                }).catch(function () {
+                    this.$message.error("服务器繁忙，请稍候再试！")
+                });
+            }
+        },
+
+    })
+</script>
+
+</html>

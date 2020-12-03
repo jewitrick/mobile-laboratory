@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册页面</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.13.2/theme-chalk/index.css">
+</head>
+<body>
+<!-- 注册表单 -->
+<div id="app">
+    <!-- 注册表单 -->
+    <el-dialog visible="true" width="42%" center @close="history.back(-1)" top="8vh">
+        <div slot="title" class="dialog-title">
+            <h2>账号注册</h2>
+        </div>
+        <el-form inline="true" :model="user"  :rules="registerRule" ref="registerForm" status-icon="true">
+            <el-form-item prop="username" label="登录名称">
+                <el-input prefix-icon="el-icon-user" placeholder="请输入登录名称" v-model="user.username" autocomplete="off"
+                          clearable></el-input>
+            </el-form-item>
+            <el-form-item prop="password" label="密&emsp;&emsp;码">
+                <el-input prefix-icon="el-icon-lock" type="password" placeholder="请输入密码" v-model="user.password"
+                          autocomplete="off" show-password></el-input>
+            </el-form-item>
+            <el-form-item prop="confirmPwd" label="确认密码">
+                <el-input prefix-icon="el-icon-lock" type="password" placeholder="请再次输入密码确认"
+                          v-model="user.confirmPwd" autocomplete="off" @blur="checkConfirmPwd()" show-password></el-input>
+            </el-form-item>
+            <!--<el-form-item prop="sex">-->
+                <!--&lt;!&ndash; <div><strong style="font-size: medium;">选择身份</strong></div> &ndash;&gt;-->
+                <!--<el-radio-group v-model="user.sex">-->
+                    <!--<el-radio label="男"></el-radio>-->
+                    <!--<el-radio label="女"></el-radio>-->
+                <!--</el-radio-group>-->
+            <!--</el-form-item>-->
+            <el-form-item prop="realname" label="真实姓名">
+                <el-input prefix-icon="el-icon-user" placeholder="请输入真实姓名" v-model="user.realname" autocomplete="off"
+                          clearable></el-input>
+            </el-form-item>
+            <el-form-item prop="phone" label="联系方式">
+                <el-input prefix-icon="el-icon-phone-outline" placeholder="请输入联系方式" v-model="user.phone" autocomplete="off"
+                          clearable></el-input>
+            </el-form-item>
+            <el-form-item prop="birth" label="出生日期">
+                <el-date-picker type="date" :picker-options="pickerOptions" placeholder="请选择出生日期" v-model="user.birth"
+                ></el-date-picker>
+            </el-form-item>
+            <el-form-item prop="role_id" label="您的身份">
+                <el-select size="medium" v-model="user.role_id" placeholder="请选择您的角色">
+                    <el-option
+                            v-for="(role, index) in roleData"
+                            :key="index"
+                            :label="role.role_name"
+                            :value="role.id">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item v-show="user.role_id === 3" prop="schoolName" label="学校名称">
+                <!--<el-input prefix-icon="el-icon-phone-school" placeholder="请输入您所在的学校" v-model="user.schoolName" autocomplete="off"-->
+                          <!--clearable></el-input>-->
+                <el-autocomplete
+                        class="inline-input"
+                        prefix-icon="el-icon-phone-school"
+                        v-model="user.schoolName"
+                        :fetch-suggestions="querySearchSchool"
+                        value-key="school_name"
+                        placeholder="请输入您所在的学校"
+                ></el-autocomplete>
+            </el-form-item>
+            <el-form-item v-show="user.role_id === 2" prop="eduBureau" label="教育局名称">
+                <el-autocomplete
+                        class="inline-input"
+                        prefix-icon="el-icon-phone-school"
+                        v-model="user.eduBureau"
+                        :fetch-suggestions="querySearchEduBureau"
+                        value-key="edu_name"
+                        placeholder="请输入您所在的教育局"
+                ></el-autocomplete>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-row>
+                <el-button type="primary" @click="register('registerForm')" style="display: block; width: 100%;">注 册
+                </el-button>
+            </el-row>
+            <el-row style="float: right;margin-top: 20px;">
+                <span style="font-size: small;">已有账号？</span>
+                <el-link type="primary" href="login.html" :underline="false">去登录</el-link>
+            </el-row>
+        </div>
+    </el-dialog>
+</div>
+
+<script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.bootcss.com/element-ui/2.13.2/index.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+<script src="js/md5.js"></script>
+<script src="js/common.js"></script>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            user: {
+                username: "",
+                password: "",
+                confirmPwd: "",
+                realname: "",
+                phone: "",
+                birth: "",
+                role_id: "",
+                schoolName: "",
+                eduBureau: ""
+            },
+            roleData: [],
+            schoolData: [],
+            eduBureau: [],
+            pickerOptions: { //控制时间范围
+                disabledDate (time) {
+                    return time.getTime() > Date.now()
+                }
+            },
+            registerRule: {
+                username: [
+                    { required: true, message: '请输入登录名称', trigger: 'blur' },
+                ],
+                password: [
+                    { required: true, message: '请输入密码', trigger: 'blur' },
+                    { min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur' }
+                ],
+                confirmPwd: [{ required: true, message: '请输入密码', trigger: 'blur' },
+                    { min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur' }],
+                // sex: [{ required: true, message: '请再次输入密码确认', trigger: 'blur' }],
+                realname: [
+                    { required: true, message: '请输入用户名', trigger: 'blur' },
+                    { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
+                ],
+                phone: [{ required: true, message: '请输入联系方式', trigger: 'blur' },
+                    { min: 11, max: 11, message: '请输入准确的11位手机号码', trigger: 'blur' }],
+                birth: [{ type: 'date', required: true, message: '请选择出生日期', trigger: 'change' }],
+                role_id: [{ required: true, message: '请选择您的角色', trigger: 'change' }],
+                schoolName: [{ required: false, message: '请输入学校名称', trigger: 'blur' }],
+                eduBureau: [{ required: false, message: '请输入教育局名称', trigger: 'blur' }],
+
+            },
+
+        },
+        methods: {
+            checkConfirmPwd: function checkConfirmPwd() {
+                var flag=false;
+                if(this.user.confirmPwd === ""){
+                    this.$message.error("请再次输入密码确认！")
+                } else if(this.user.confirmPwd !== this.user.password){
+                    this.$message.error("两次密码不一致！")
+                } else{
+                    flag=true;
+                }
+                return flag;
+            },
+            register(registerForm) {
+                this.$refs[registerForm].validate((valid) => {
+                    // 表单校验+密码框校验
+                    if(valid && this.checkConfirmPwd()){
+                        var registerUser = {};
+                        utils.assign(registerUser,this.user);
+                        axios.post("userRegister",registerUser).then(({data}) => {
+                            if (data.flag){
+                                location.href = "login.html"
+                            }else{
+                                this.$message.error(data.message)
+                            }
+                        }).catch(() => {
+                            this.$message.error("服务器繁忙，请稍候再试！")
+                        })
+                    }
+                })
+            },
+            getRoleData(){
+                axios.get("roles").then(({data}) => {
+                    this.roleData=data;
+                })
+            },
+            getAllSchool(){
+                axios.get("getAllSchool").then(({data}) => {
+                    this.schoolData=data;
+                })
+            },
+            getAllEduBureau(){
+                axios.get("getAllEduBureau").then(({data}) => {
+                    this.eduBureau=data;
+                })
+            },
+            //查找所有学校
+            querySearchSchool(queryString, cb) {
+                var schoolData = this.schoolData;
+                var results = queryString ? schoolData.filter(this.createFilterSchool(queryString)) : schoolData;
+                // 调用 callback 返回建议列表的数据
+                cb(results);
+            },
+            createFilterSchool(queryString) {
+                return (school) => {
+                    return (school.school_name.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                };
+            },
+
+            //查找教育局
+            querySearchEduBureau(queryString, cb) {
+                var eduBureau = this.eduBureau;
+                var results = queryString ? eduBureau.filter(this.createFilterEduBureau(queryString)) : eduBureau;
+                // 调用 callback 返回建议列表的数据
+                cb(results);
+            },
+            createFilterEduBureau(queryString) {
+                return (edu) => {
+                    return (edu.edu_name.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                };
+            },
+        },
+        created(){
+            this.getRoleData();
+            this.getAllEduBureau();
+            this.getAllSchool();
+        }
+        // watch: {
+        //     user: {
+        //         deep: true,
+        //         handler() {
+        //             console.log(this.user)
+        //         }
+        //     }
+        // }
+    })
+</script>
+</body>
+</html>
