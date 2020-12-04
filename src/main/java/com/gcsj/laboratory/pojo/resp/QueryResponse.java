@@ -1,4 +1,4 @@
-package com.gcsj.laboratory.resp;
+package com.gcsj.laboratory.pojo.resp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

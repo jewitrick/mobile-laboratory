@@ -1,21 +1,15 @@
 package com.gcsj.laboratory.controller;
 
 import com.gcsj.laboratory.pojo.User;
-import com.gcsj.laboratory.resp.CommonResponse;
-import com.gcsj.laboratory.resp.QueryResponse;
+import com.gcsj.laboratory.pojo.resp.CommonResponse;
+import com.gcsj.laboratory.pojo.resp.QueryResponse;
 import com.gcsj.laboratory.service.UserService;
-import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 public class UserController {

@@ -2,12 +2,13 @@ package com.gcsj.laboratory.service;
 
 import com.gcsj.laboratory.mapper.*;
 import com.gcsj.laboratory.pojo.*;
-import com.gcsj.laboratory.resp.CommonResponse;
-import com.gcsj.laboratory.resp.QueryResponse;
+import com.gcsj.laboratory.pojo.resp.CommonResponse;
+import com.gcsj.laboratory.pojo.resp.QueryResponse;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
@@ -41,6 +42,7 @@ public class UserService {
     }
 
     //更新用户信息
+    @Transactional
     public CommonResponse<User> updateUser(Long id, User user) {
         int i = this.userMapper.updateByPrimaryKey( user );
         if (i == 1) {
@@ -50,6 +52,7 @@ public class UserService {
     }
 
     //用户注册
+    @Transactional
     public CommonResponse<User> userRegister(User user) {
         // 1. 拿到 role_id，判断用户选择注册的角色
         if (Objects.equals( 3L, user.getRole_id() )) { // 用户选择的注册角色是学校
@@ -100,6 +103,7 @@ public class UserService {
 
 
     //删除用户
+    @Transactional
     public int deleteById(Long id) {
         return this.userMapper.deleteByPrimaryKey( id );
     }

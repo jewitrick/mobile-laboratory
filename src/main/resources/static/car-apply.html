@@ -30,7 +30,7 @@
                     <!--教育局功能-->
                     <template slot="title"><i class="el-icon-folder-opened"></i>车辆列表</template>
                     <el-menu-item-group>
-                        <el-menu-item index="2-1"><i class="el-icon-document"></i>用车申请记录</el-menu-item>
+                        <el-menu-item index="2-1" @click="location.href='carApplyRecord.html' "><i class="el-icon-document"></i>用车申请记录</el-menu-item>
                         <el-menu-item index="2-2" @click="location.href='car-apply.html' "><i class="el-icon-folder-add"></i>用车申请</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
@@ -163,7 +163,14 @@
         },
         methods: {
             verify() {
-                this.user = {id: 2}
+                axios.get("user/verify").then(({data}) => {
+                    if (data) {
+                        this.user = data;
+                        // this.getPageExperimentData();
+                    } else {
+                        location.href = "login.html"
+                    }
+                })
             },
             logout() {
 

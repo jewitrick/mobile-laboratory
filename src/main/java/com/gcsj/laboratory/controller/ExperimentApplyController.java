@@ -1,8 +1,8 @@
 package com.gcsj.laboratory.controller;
 
 import com.gcsj.laboratory.pojo.ExperimentApply;
-import com.gcsj.laboratory.resp.CommonResponse;
-import com.gcsj.laboratory.resp.QueryResponse;
+import com.gcsj.laboratory.pojo.resp.CommonResponse;
+import com.gcsj.laboratory.pojo.resp.QueryResponse;
 import com.gcsj.laboratory.service.ExperimentApplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +37,7 @@ public class ExperimentApplyController {
         return this.experimentApplyService.findPageByUserId(id, currentPage, pageSize, state);
     }
 
-    @GetMapping("/getById//{id}")
+    @GetMapping("/getById/{id}")
     ExperimentApply findExperimentById(@PathVariable Long id){
         return this.experimentApplyService.findExperimentById(id);
     }

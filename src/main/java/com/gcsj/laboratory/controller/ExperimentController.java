@@ -1,8 +1,8 @@
 package com.gcsj.laboratory.controller;
 
 import com.gcsj.laboratory.pojo.Experiment;
-import com.gcsj.laboratory.resp.CommonResponse;
-import com.gcsj.laboratory.resp.QueryResponse;
+import com.gcsj.laboratory.pojo.resp.CommonResponse;
+import com.gcsj.laboratory.pojo.resp.QueryResponse;
 import com.gcsj.laboratory.service.ExperimentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

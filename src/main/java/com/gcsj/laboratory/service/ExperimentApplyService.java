@@ -8,17 +8,17 @@ import com.gcsj.laboratory.pojo.ExperimentApply;
 import com.gcsj.laboratory.pojo.User;
 import com.gcsj.laboratory.pojo.UserEduBureau;
 import com.gcsj.laboratory.pojo.UserSchool;
-import com.gcsj.laboratory.resp.CommonResponse;
-import com.gcsj.laboratory.resp.QueryResponse;
+import com.gcsj.laboratory.pojo.resp.CommonResponse;
+import com.gcsj.laboratory.pojo.resp.QueryResponse;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class ExperimentApplyService {
@@ -41,6 +41,7 @@ public class ExperimentApplyService {
         return new QueryResponse<>(true, "查询成功！", experimentApplies, pageInfo.getTotal());
     }
 
+    @Transactional
     public CommonResponse<ExperimentApply> insert(long id, ExperimentApply experimentApply) {
 
         if (!checkIfRepeated(id, experimentApply.getExperi_id())) {
@@ -115,9 +116,7 @@ public class ExperimentApplyService {
             PageInfo<ExperimentApply> pageInfo = new PageInfo<>(experimentApplies);
             return new QueryResponse<>(true, "查询成功", experimentApplies, pageInfo.getTotal());
         }
-
         return new QueryResponse<>(false, "非法请求！", null, 0);
-
     }
 
     public ExperimentApply findExperimentById(Long id) {
@@ -125,18 +124,21 @@ public class ExperimentApplyService {
         return experimentApply;
     }
 
+    @Transactional
     public CommonResponse<ExperimentApply> updateState(Long id, int state) {
         ExperimentApply experimentApply = this.experimentApplyMapper.selectByPrimaryKey(id);
         experimentApply.setState(state);
         experimentApply.setResult("请等待教育局申请用车");
         int i = this.experimentApplyMapper.updateByPrimaryKey(experimentApply);
         if (i == 1) {
+
             return new CommonResponse<>(true, "您已成功提交审核", null);
         }
         return new CommonResponse<>(false, "审核失败", null);
 
     }
 
+    @Transactional
     public CommonResponse<ExperimentApply> updateStateAndResult(Long id, int state, String result) {
         ExperimentApply experimentApply = this.experimentApplyMapper.selectByPrimaryKey(id);
         experimentApply.setState(state);

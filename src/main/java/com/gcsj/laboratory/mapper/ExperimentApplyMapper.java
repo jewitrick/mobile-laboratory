@@ -10,13 +10,16 @@ import java.util.List;
 public interface ExperimentApplyMapper extends Mapper<ExperimentApply> {
 
     @Results(id = "experimentApplyMapper", value = {
+            @Result(id = true, column = "id", property = "id"),
             @Result(column = "experi_id", property = "experi_id"),
             @Result(column = "experi_id", property = "experiment",
                     one = @One(select = "com.gcsj.laboratory.mapper.ExperimentMapper.findById", fetchType = FetchType.EAGER)),
             @Result(column = "user_id", property = "user",
                     one = @One(select = "com.gcsj.laboratory.mapper.UserMapper.findById", fetchType = FetchType.EAGER)),
             @Result(column = "user_id", property = "schoolName",
-                    one = @One(select = "com.gcsj.laboratory.mapper.SchoolMapper.findSchoolNameByUserId", fetchType = FetchType.EAGER))
+                    one = @One(select = "com.gcsj.laboratory.mapper.SchoolMapper.findSchoolNameByUserId", fetchType = FetchType.EAGER)),
+            @Result(column = "id", property = "eduStatus",
+                    one = @One(select = "com.gcsj.laboratory.mapper.CarApplyMapper.findEduStatusByApplyId", fetchType = FetchType.EAGER))
     })
     @Select("select * from experi_apply")
     List<ExperimentApply> findAll();

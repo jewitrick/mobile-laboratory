@@ -32,6 +32,9 @@ public class ExperimentApply {
     private String result;      // 审核结果
 
     @Transient
+    private Integer eduStatus; // 教育局申请用车状态
+
+    @Transient
     private String schoolName;
 
     @Transient

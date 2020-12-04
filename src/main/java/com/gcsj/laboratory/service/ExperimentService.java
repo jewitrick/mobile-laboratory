@@ -2,12 +2,13 @@ package com.gcsj.laboratory.service;
 
 import com.gcsj.laboratory.mapper.ExperimentMapper;
 import com.gcsj.laboratory.pojo.Experiment;
-import com.gcsj.laboratory.resp.CommonResponse;
-import com.gcsj.laboratory.resp.QueryResponse;
+import com.gcsj.laboratory.pojo.resp.CommonResponse;
+import com.gcsj.laboratory.pojo.resp.QueryResponse;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class ExperimentService {
         return this.experimentMapper.findAllExperiments();
     }
 
+    @Transactional
     public CommonResponse<Experiment> insertExperiment(Experiment experiment) {
         int i = this.experimentMapper.insert( experiment );
         if (i == 1) {
@@ -30,6 +32,7 @@ public class ExperimentService {
 
     }
 
+    @Transactional
     public int deleteById(Long id) {
         return this.experimentMapper.deleteByPrimaryKey( id );
     }
@@ -38,6 +41,7 @@ public class ExperimentService {
         return this.experimentMapper.selectByPrimaryKey( id );
     }
 
+    @Transactional
     public CommonResponse<Experiment> updateExperiment(Long id, Experiment updateExperiment) {
         int i = this.experimentMapper.updateByPrimaryKey( updateExperiment );
         if (i == 1) {

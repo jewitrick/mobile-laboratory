@@ -23,18 +23,24 @@
             <el-menu :default-openeds="['1','2']"
                      default-active="1-1">
                 <el-submenu index="1">
-                <!--教育局功能-->
+                    <!--教育局功能-->
                     <template slot="title"><i class="el-icon-folder-opened"></i>实验管理</template>
                     <el-menu-item-group>
-                        <el-menu-item index="1-1" @click="location.href='eubreau.html'"><i class="el-icon-document-checked"></i>实验申请列表</el-menu-item>
+                        <el-menu-item index="1-1" @click="location.href='eubreau.html'"><i
+                                class="el-icon-document-checked"></i>实验申请列表
+                        </el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="2">
                     <!--教育局功能-->
                     <template slot="title"><i class="el-icon-folder-opened"></i>车辆列表</template>
                     <el-menu-item-group>
-                        <el-menu-item index="2-1"><i class="el-icon-document"></i>用车申请记录</el-menu-item>
-                        <el-menu-item index="2-2" @click="location.href='car-apply.html' "><i class="el-icon-folder-add"></i>用车申请</el-menu-item>
+                        <el-menu-item index="2-1" @click="location.href='carApplyRecord.html' "><i
+                                class="el-icon-document"></i>用车申请记录
+                        </el-menu-item>
+                        <el-menu-item index="2-2" @click="location.href='car-apply.html' "><i
+                                class="el-icon-folder-add"></i>用车申请
+                        </el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>
@@ -91,15 +97,21 @@
                             <el-table-column label="实验人数" property="experi_num" align="center"></el-table-column>
                             <el-table-column label="审核状态" align="center">
                                 <template slot-scope="scope">
-                                        <el-tag :type="scope.row.state === 0 ? '' : (scope.row.state === 1 ? 'success' : 'danger')">
-                                            {{scope.row.state === 0 ? '未审核' : (scope.row.state === 1 ? '已通过' : '未通过')}}
-                                        </el-tag>
+                                    <el-tag :type="scope.row.state === 0 ? '' : (scope.row.state === 1 ? 'success' : 'danger')">
+                                        {{scope.row.state === 0 ? '未审核' : (scope.row.state === 1 ? '已通过' : '未通过')}}
+                                    </el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" width="120" align="center">
                                 <template slot-scope="scope">
-                                    <el-tooltip class="item" effect="dark" content="查看详情" placement="right">
-                                        <el-button type="primary" size="mini" @click="checkDetail(scope.row.id)" icon="el-icon-edit" circle></el-button>
+                                    <el-tooltip class="item" effect="dark" content="查看详情" placement="left">
+                                        <el-button type="primary" size="mini" @click="checkDetail(scope.row.id)"
+                                                   icon="el-icon-edit" circle></el-button>
+                                    </el-tooltip>
+                                    <el-tooltip class="item" effect="dark" content="申请用车" placement="right">
+                                        <el-button v-show="scope.row.state === 1" :disabled="scope.row.eduStatus === 1 || scope.row.eduStatus === 2" type="warning" size="mini"
+                                                   @click="applyCar(scope.row.id)" icon="el-icon-truck"
+                                                   circle></el-button>
                                     </el-tooltip>
                                     <!--实验详情模态框-->
                                     <el-dialog width="42%" center :visible.sync="dialogFormVisible" top="8vh">
@@ -130,7 +142,8 @@
                                                 <el-input prefix-icon="el-icon-phone-outline"
                                                           style=" width: 222px"
                                                           :disabled="true"
-                                                          placeholder="请输入联系方式" v-model="experiment_detail.phone_number" autocomplete="off"
+                                                          placeholder="请输入联系方式" v-model="experiment_detail.phone_number"
+                                                          autocomplete="off"
                                                           clearable></el-input>
                                             </el-form-item>
                                             <el-form-item prop="experi_date" label="实验日期">
@@ -154,7 +167,8 @@
                                                           type="textarea"
                                                           v-model="experiment_detail.instruction"></el-input>
                                             </el-form-item>
-                                            <el-form-item prop="result" label="驳回原因" v-show="experiment_detail.state===2">
+                                            <el-form-item prop="result" label="驳回原因"
+                                                          v-show="experiment_detail.state===2">
                                                 <el-input prefix-icon="el-icon-lock"
                                                           style=" width: 222px"
                                                           :disabled="true"
@@ -164,11 +178,50 @@
                                         </el-form>
                                         <div slot="footer" class="dialog-footer" v-show="experiment_detail.state===0">
                                             <el-tooltip class="item" effect="dark" content="驳回" placement="top-start">
-                                                <el-button type="danger" @click="reject" icon="el-icon-edit" circle></el-button>
+                                                <el-button type="danger" @click="reject" icon="el-icon-edit"
+                                                           circle></el-button>
                                             </el-tooltip>
                                             <el-tooltip class="item" effect="dark" content="通过审核" placement="top-end">
-                                                <el-button type="success" @click="updateState" icon="el-icon-check" circle></el-button>
+                                                <el-button type="success" @click="updateState" icon="el-icon-check"
+                                                           circle></el-button>
                                             </el-tooltip>
+                                        </div>
+                                    </el-dialog>
+
+                                    <!--用车申请模态框-->
+                                    <el-dialog width="42%" center :visible.sync="carApplyDialog" top="8vh">
+                                        <div slot="title" class="dialog-title">
+                                            <h2>查看实验详情</h2>
+                                        </div>
+                                        <el-form :model="eduCarApplyInfo"
+                                                 status-icon="true"
+                                                 :rules="carApplyRules">
+                                            <el-form-item prop="edu_principal" label="负&ensp;责&ensp;人">
+                                                <el-input prefix-icon="el-icon-user"
+                                                          placeholder="用车申请负责人"
+                                                          v-model="eduCarApplyInfo.edu_principal"
+                                                          autocomplete="off" style=" width: 222px"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item prop="edu_phone" label="联系方式">
+                                                <el-input prefix-icon="el-icon-phone-outline"
+                                                          style=" width: 222px"
+                                                          placeholder="请输入联系方式"
+                                                          v-model="eduCarApplyInfo.edu_phone"
+                                                          autocomplete="off"
+                                                          clearable></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item prop="edu_instruction" label="用车说明">
+                                                <el-input prefix-icon="el-icon-lock"
+                                                          style=" width: 222px"
+                                                          placeholder="请输入用车说明"
+                                                          type="textarea"
+                                                          v-model="eduCarApplyInfo.edu_instruction"></el-input>
+                                            </el-form-item>
+                                        </el-form>
+                                        <div slot="footer" class="dialog-footer">
+                                            <el-button type="primary" @click="uploadCarApply">提交申请</el-button>
                                         </div>
                                     </el-dialog>
                                     <!--<el-button size="mini" type="danger" slot="reference" icon="el-icon-delete"-->
@@ -214,6 +267,7 @@
                     state: -1
                 }
             },
+            eduCarApplyInfo: {},
             dialogFormVisible: false,
             experiment_detail: [],
             options: [
@@ -221,7 +275,20 @@
                 {value: 0, name: "未审核"},
                 {value: 1, name: "已通过"},
                 {value: 2, name: "未通过"},
-            ]
+            ],
+            applyId: -1,
+            carApplyDialog: false,
+            applyRecord: [],
+
+            carApplyRules: {
+                edu_principal: [
+                    {required: true, message: '请输入负责人名称', trigger: 'blur'},
+                    {min: 2, max: 5, message: '长度在 4 到 5 个字符', trigger: 'blur'}
+                ],
+                edu_phone: [{required: true, message: '请输入联系方式', trigger: 'blur'},
+                    {min: 11, max: 11, message: '请输入准确的11位手机号码', trigger: 'blur'}],
+                edu_instruction: [{required: true, message: '请输入申请说明', trigger: 'blur'}],
+            }
         },
         methods: {
             verify() {
@@ -237,36 +304,42 @@
             logout() {
 
             },
-            updateState(){
-                axios.post("experimentApply/"+this.experiment_detail.id+ "/state/" + 1).then(({data}) => {
-                    if (data.flag){
+            updateState() {
+                axios.post("experimentApply/" + this.experiment_detail.id + "/state/" + 1).then(({data}) => {
+                    if (data.flag) {
                         this.$message.success(data.message);
-                        location.href="eubreau.html"
+                        location.href = "eubreau.html"
                     } else {
                         this.$message.error(data.message)
                     }
                 })
             },
-            reject(){
-                this.$prompt('请输入驳回原因','原因',{
+            reject() {
+                this.$prompt('请输入驳回原因', '原因', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                 }).then(({value}) => {
-                    axios.post("experimentApply/"+this.experiment_detail.id+ "/state/" + 2+"/result/"+value)
-                        .then(({data})=> {
-                            if (data.flag){
+                    axios.post("experimentApply/" + this.experiment_detail.id + "/state/" + 2 + "/result/" + value)
+                        .then(({data}) => {
+                            if (data.flag) {
                                 this.$message.success(data.message);
-                                location.href="eubreau.html"
+                                location.href = "eubreau.html"
                             } else {
                                 this.$message.error(data.message)
                             }
-                    })
+                        })
                 })
             },
-            checkDetail(id){
-                this.dialogFormVisible=true;
-                axios.get("experimentApply/getById/"+id).then(({data}) => {
-                    this.experiment_detail=data;
+            checkDetail(id) {
+                this.dialogFormVisible = true;
+                axios.get("experimentApply/getById/" + id).then(({data}) => {
+                    this.experiment_detail = data;
+                })
+            },
+            // 查询所有用车申请记录
+            getAllRecord(){
+                axios.get("carApply/selectAllRecord").then(({data}) => {
+                    this.applyRecord=data;
                 })
             },
             getPageExperimentData() {
@@ -289,9 +362,24 @@
             current_change(click_page) {
                 this.page_data.current_page = click_page;
             },
+            applyCar(applyId) {
+                this.carApplyDialog = true;
+                this.applyId = applyId;
+            },
+            uploadCarApply() {
+                axios.post("carApply/" + this.applyId + '/' + this.user.id, this.eduCarApplyInfo).then(({data}) => {
+                    if (data.flag) {
+                        this.$message.success(data.message);
+                        location.href = "eubreau.html";
+                    } else {
+                        this.$message.error(data.message)
+                    }
+                })
+            }
         },
         created() {
             this.verify();
+            this.getAllRecord();
         },
         watch: {
             page_data: {
