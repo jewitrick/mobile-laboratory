@@ -4,6 +4,7 @@ import com.gcsj.laboratory.mapper.CarApplyMapper;
 import com.gcsj.laboratory.mapper.UserEduBureauMapper;
 import com.gcsj.laboratory.mapper.UserMapper;
 import com.gcsj.laboratory.pojo.CarApply;
+import com.gcsj.laboratory.pojo.ExperimentApply;
 import com.gcsj.laboratory.pojo.User;
 import com.gcsj.laboratory.pojo.UserEduBureau;
 import com.gcsj.laboratory.pojo.resp.CommonResponse;
@@ -69,5 +70,33 @@ public class CarApplyService {
             return new QueryResponse<>(true, "查询成功", carApplies, pageInfo.getTotal());
         }
         return new QueryResponse<>(false, "非法请求！", null, 0);
+    }
+
+    public CarApply findCarApplyById(Long id) {
+        return this.carApplyMapper.findExperimentById(id);
+    }
+
+    @Transactional
+    public CommonResponse<CarApply> updateState(Long id, int status) {
+        CarApply carApply = this.carApplyMapper.selectByPrimaryKey(id);
+        carApply.setEdu_status(status);
+        carApply.setEdu_result("请等待调度中心派车");
+        int i = this.carApplyMapper.updateByPrimaryKey(carApply);
+        if (i == 1) {
+            return new CommonResponse<>(true, "您已成功提交审核", null);
+        }
+        return new CommonResponse<>(false, "审核失败", null);
+    }
+
+    public CommonResponse<CarApply> updateStateAndResult(Long id, int status, String result) {
+
+        CarApply carApply = this.carApplyMapper.selectByPrimaryKey(id);
+        carApply.setEdu_status(status);
+        carApply.setEdu_result(result);
+        int i = this.carApplyMapper.updateByPrimaryKey(carApply);
+        if (i == 1) {
+            return new CommonResponse<>(true, "您已驳回实验", null);
+        }
+        return new CommonResponse<>(false, "驳回失败", null);
     }
 }

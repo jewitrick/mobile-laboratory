@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>实验汇总</title>
+    <title>用车申请列表</title>
     <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.13.2/theme-chalk/index.css">
     <style>
         .el-header {
@@ -20,29 +20,87 @@
 <div id="app">
     <el-container style="height: 600px; border: 1px solid #eee">
         <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-menu :default-openeds="['1','2']"
-                     default-active="1-1">
+            <el-menu :default-openeds="['1', '4']"
+                     default-active="4-1">
                 <el-submenu index="1">
-                    <!--教育局功能-->
-                    <template slot="title"><i class="el-icon-folder-opened"></i>实验管理</template>
+                    <!--调度中心功能-->
+                    <template slot="title"><i class="el-icon-user"></i>用户管理</template>
                     <el-menu-item-group>
-                        <el-menu-item index="1-1" @click="location.href='eubreau.html'"><i
-                                class="el-icon-document-checked"></i>实验申请列表
-                        </el-menu-item>
+                        <el-menu-item index="1-1" @click="location.href='index.html' "><i class="el-icon-document-checked"></i>用户列表</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="2">
-                    <!--教育局功能-->
-                    <template slot="title"><i class="el-icon-folder-opened"></i>车辆列表</template>
+                    <!--调度中心功能-->
+                    <template slot="title"><i class="el-icon-truck"></i>车辆管理</template>
                     <el-menu-item-group>
-                        <el-menu-item index="2-1" @click="location.href='carApplyRecord.html' "><i
-                                class="el-icon-document"></i>用车申请记录
-                        </el-menu-item>
-                        <!--<el-menu-item index="2-2" @click="location.href='car-apply.html' "><i-->
-                                <!--class="el-icon-folder-add"></i>用车申请-->
-                        <!--</el-menu-item>-->
+                        <el-menu-item index="2-1"><i class="el-icon-document-checked"></i>车辆购入记录</el-menu-item>
+                        <el-menu-item index="2-2"><i class="el-icon-folder-add"></i>车辆调度</el-menu-item>
+                        <el-menu-item index="2-3"><i class="el-icon-setting"></i>车辆保障详情</el-menu-item>
+                        <el-menu-item index="2-4"><i class="el-icon-s-tools"></i>耗材管理</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
+                <el-submenu index="3">
+                    <!--调度中心功能-->
+                    <template slot="title"><i class="el-icon-truck"></i>实验管理</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="3-1" @click="location.href='experi-manage.html' "><i
+                                class="el-icon-document-checked"></i>实验信息
+                        </el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-submenu index="4">
+                    <!--调度中心功能-->
+                    <template slot="title"><i class="el-icon-truck"></i>用车申请管理</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="4-1" @click="location.href='carApply-manage.html' "><i
+                                class="el-icon-document-checked"></i>申请用车列表
+                        </el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+                <!--carApply-manage-->
+                <!--<el-submenu index="3">-->
+                <!--&lt;!&ndash;教育局功能&ndash;&gt;-->
+                <!--<template slot="title"><i class="el-icon-folder-opened"></i>学校课程管理</template>-->
+                <!--<el-menu-item-group>-->
+                <!--<el-menu-item index="3-1"><i class="el-icon-document-checked"></i>实验申请列表</el-menu-item>-->
+                <!--<el-menu-item index="3-2"><i class="el-icon-document"></i>用车申请记录</el-menu-item>-->
+                <!--<el-menu-item index="3-3"><i class="el-icon-folder-add"></i>用车申请</el-menu-item>-->
+                <!--</el-menu-item-group>-->
+                <!--</el-submenu>-->
+
+                <!--<el-submenu index="4">-->
+                <!--&lt;!&ndash;学校功能&ndash;&gt;-->
+                <!--<template slot="title"><i class="el-icon-folder-opened"></i>实验管理</template>-->
+                <!--<el-menu-item-group>-->
+                <!--<el-menu-item index="4-1"><i class="el-icon-document-checked"></i>实验申请记录</el-menu-item>-->
+                <!--<el-menu-item index="4-2"><i class="el-icon-folder-add"></i>实验申请</el-menu-item>-->
+                <!--</el-menu-item-group>-->
+
+                <!--</el-submenu>-->
+                <!--<el-submenu index="5">-->
+                <!--&lt;!&ndash;学校功能&ndash;&gt;-->
+                <!--<template slot="title"><i class="el-icon-tickets"></i>课程安排</template>-->
+                <!--<el-menu-item-group>-->
+                <!--<el-menu-item index="5-1"><i class="el-icon-notebook-1"></i>课程表</el-menu-item>-->
+                <!--&lt;!&ndash;<el-menu-item index="2-2">选项2</el-menu-item>&ndash;&gt;-->
+                <!--</el-menu-item-group>-->
+                <!--</el-submenu>-->
+                <!--<el-submenu index="6">-->
+                <!--&lt;!&ndash;司机功能&ndash;&gt;-->
+                <!--<template slot="title"><i class="el-icon-truck"></i>车辆安排</template>-->
+                <!--<el-menu-item-group>-->
+                <!--<el-menu-item index="6-1"><i class="el-icon-notebook-2"></i>车辆调度表</el-menu-item>-->
+                <!--&lt;!&ndash;<el-menu-item index="2-2">选项2</el-menu-item>&ndash;&gt;-->
+                <!--</el-menu-item-group>-->
+                <!--</el-submenu>-->
+                <!--<el-submenu index="7">-->
+                <!--&lt;!&ndash;实验员功能&ndash;&gt;-->
+                <!--<template slot="title"><i class="el-icon-truck"></i>车辆安排</template>-->
+                <!--<el-menu-item-group>-->
+                <!--<el-menu-item index="7-1"><i class="el-icon-notebook-2"></i>车辆调度表</el-menu-item>-->
+                <!--&lt;!&ndash;<el-menu-item index="2-2">选项2</el-menu-item>&ndash;&gt;-->
+                <!--</el-menu-item-group>-->
+                <!--</el-submenu>-->
             </el-menu>
         </el-aside>
 
@@ -68,37 +126,38 @@
             <el-main>
                 <el-card shadow="never" class="card">
                     <div slot="header" class="clearfix">
-                        <span>实验申请记录</span>
+                        <span>各教育局用车申请列表</span>
                     </div>
                     <div id="charts_one" style="width:100%;min-height:300px">
                         <el-form :inline="true">
                             <el-form-item label="审核状态">
-                                <el-select v-model="page_data.search.state" placeholder="审核状态">
+                                <el-select v-model="page_data.search.edu_status" placeholder="审核状态">
                                     <el-option v-for="(option, index) in options" :key="option.value"
                                                :label="option.name" :value="option.value"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-form>
                         <el-table
-                                :data="experiment_data"
+                                :data="carApply_data"
                                 max-height="350"
                                 border
                                 style="width: 100%">
                             <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
                             <el-table-column label="实验名称" align="center">
                                 <template slot-scope="scope">
-                                    {{scope.row.experiment.experi_name}}
+                                    {{scope.row.experimentApply.experiment.experi_name}}
                                 </template>
                             </el-table-column>
-                            <el-table-column property="schoolName" label="学校名称" align="center"></el-table-column>
-                            <el-table-column property="principal" label="负责人" align="center"></el-table-column>
-                            <el-table-column property="phone_number" label="联系方式" align="center"></el-table-column>
-                            <el-table-column property="experi_date" label="实验日期" align="center"></el-table-column>
-                            <el-table-column label="实验人数" property="experi_num" align="center"></el-table-column>
+                            <el-table-column property="edu_name" label="教育局名称" align="center"></el-table-column>
+                            <el-table-column property="experimentApply.schoolName" label="学校名称" align="center"></el-table-column>
+                            <!--<el-table-column property="edu_principal" label="教育局负责人" align="center"></el-table-column>-->
+                            <!--<el-table-column property="edu_phone" label="教育局联系方式" align="center"></el-table-column>-->
+                            <el-table-column property="experimentApply.experi_date" label="实验日期" align="center"></el-table-column>
+                            <el-table-column label="实验人数" property="experimentApply.experi_num" align="center"></el-table-column>
                             <el-table-column label="审核状态" align="center">
                                 <template slot-scope="scope">
-                                    <el-tag :type="scope.row.state === 0 ? '' : (scope.row.state === 1 ? 'success' : 'danger')">
-                                        {{scope.row.state === 0 ? '未审核' : (scope.row.state === 1 ? '已通过' : '未通过')}}
+                                    <el-tag :type="scope.row.edu_status === 1 ? '' : (scope.row.edu_status === 2 ? 'success' : 'danger')">
+                                        {{scope.row.edu_status === 1 ? '未审核' : (scope.row.edu_status === 2 ? '已通过' : '未通过')}}
                                     </el-tag>
                                 </template>
                             </el-table-column>
@@ -108,76 +167,107 @@
                                         <el-button type="primary" size="mini" @click="checkDetail(scope.row.id)"
                                                    icon="el-icon-edit" circle></el-button>
                                     </el-tooltip>
-                                    <el-tooltip class="item" effect="dark" content="申请用车" placement="right">
-                                        <el-button v-show="scope.row.state === 1" :disabled="scope.row.eduStatus === 1 || scope.row.eduStatus === 2" type="warning" size="mini"
-                                                   @click="applyCar(scope.row.id)" icon="el-icon-truck"
-                                                   circle></el-button>
-                                    </el-tooltip>
-                                    <!--实验详情模态框-->
+                                    <!--<el-tooltip class="item" effect="dark" content="申请用车" placement="right">-->
+                                        <!--<el-button v-show="scope.row.state === 1" :disabled="scope.row.eduStatus === 1 || scope.row.eduStatus === 2" type="warning" size="mini"-->
+                                                   <!--@click="applyCar(scope.row.id)" icon="el-icon-truck"-->
+                                                   <!--circle></el-button>-->
+                                    <!--</el-tooltip>-->
+                                    <!--用车申请详情模态框-->
                                     <el-dialog width="42%" center :visible.sync="dialogFormVisible" top="8vh">
                                         <div slot="title" class="dialog-title">
-                                            <h2>查看实验详情</h2>
+                                            <h2>用车申请详情</h2>
                                         </div>
-                                        <el-form :model="experiment_detail" status-icon="true">
-                                            <el-form-item prop="experi_name" label="实验名称">
+                                        <el-form :model="carApply_detail" status-icon="true">
+                                            <el-form-item prop="experi_name" label="实&ensp;验&ensp;名&ensp;称">
                                                 <el-input prefix-icon="el-icon-user"
                                                           :disabled="true"
-                                                          v-model="experiment_detail.principal"
+                                                          v-model="carApply_detail.experimentApply.experiment.experi_name"
                                                           autocomplete="off" style=" width: 222px"></el-input>
                                             </el-form-item>
-                                            <el-form-item prop="schoolName" label="学校名称">
+                                            <el-form-item prop="edu_name" label="&ensp;教&emsp;育&emsp;局">
                                                 <el-input prefix-icon="el-icon-user"
                                                           :disabled="true"
-                                                          v-model="experiment_detail.schoolName"
+                                                          v-model="carApply_detail.edu_name"
                                                           autocomplete="off" style=" width: 222px"></el-input>
                                             </el-form-item>
-                                            <el-form-item prop="principal" label="负&ensp;责&ensp;人">
+                                            <el-form-item prop="edu_principal" label="教育局负责人">
                                                 <el-input prefix-icon="el-icon-user"
                                                           :disabled="true"
-                                                          v-model="experiment_detail.principal"
+                                                          v-model="carApply_detail.edu_principal"
                                                           autocomplete="off" style=" width: 222px"></el-input>
                                             </el-form-item>
 
-                                            <el-form-item prop="phone_number" label="联系方式">
+                                            <el-form-item prop="edu_phone" label="教育局电话&emsp;">
                                                 <el-input prefix-icon="el-icon-phone-outline"
                                                           style=" width: 222px"
                                                           :disabled="true"
                                                           placeholder="请输入联系方式"
-                                                          v-model="experiment_detail.phone_number"
+                                                          v-model="carApply_detail.edu_phone"
                                                           autocomplete="off"
                                                           clearable></el-input>
                                             </el-form-item>
-                                            <el-form-item prop="experi_date" label="实验日期">
+                                            <el-form-item prop="schoolName" label="学&ensp;校&ensp;名&ensp;称">
+                                                <el-input prefix-icon="el-icon-user"
+                                                          :disabled="true"
+                                                          v-model="carApply_detail.experimentApply.schoolName"
+                                                          autocomplete="off" style=" width: 222px"></el-input>
+                                            </el-form-item>
+                                            <el-form-item prop="principal" label="学校负责人&emsp;">
+                                                <el-input prefix-icon="el-icon-user"
+                                                          :disabled="true"
+                                                          v-model="carApply_detail.experimentApply.principal"
+                                                          autocomplete="off" style=" width: 222px"></el-input>
+                                            </el-form-item>
+
+                                            <el-form-item prop="phone_number" label="学校联系方式">
+                                                <el-input prefix-icon="el-icon-phone-outline"
+                                                          style=" width: 222px"
+                                                          :disabled="true"
+                                                          placeholder="请输入联系方式"
+                                                          v-model="carApply_detail.experimentApply.phone_number"
+                                                          autocomplete="off"
+                                                          clearable></el-input>
+                                            </el-form-item>
+                                            <el-form-item prop="school_address" label="学&ensp;校&ensp;地&ensp;址">
+                                                <el-input prefix-icon="el-icon-phone-outline"
+                                                          style=" width: 222px"
+                                                          :disabled="true"
+                                                          placeholder="请输入联系方式"
+                                                          v-model="carApply_detail.experimentApply.school_address"
+                                                          autocomplete="off"
+                                                          clearable></el-input>
+                                            </el-form-item>
+                                            <el-form-item prop="experi_date" label="实&ensp;验&ensp;日&ensp;期">
                                                 <el-date-picker type="date"
                                                                 style=" width: 222px"
                                                                 :disabled="true"
-                                                                v-model="experiment_detail.experi_date"
+                                                                v-model="carApply_detail.experimentApply.experi_date"
                                                 ></el-date-picker>
                                             </el-form-item>
-                                            <el-form-item prop="experi_num" label="实验人数">
+                                            <el-form-item prop="experi_num" label="实&ensp;验&ensp;人&ensp;数">
                                                 <el-input prefix-icon="el-icon-user"
                                                           style=" width: 222px"
                                                           :disabled="true"
-                                                          v-model="experiment_detail.experi_num" autocomplete="off"
+                                                          v-model="carApply_detail.experimentApply.experi_num" autocomplete="off"
                                                           clearable></el-input>
                                             </el-form-item>
-                                            <el-form-item prop="instruction" label="申请说明">
+                                            <el-form-item prop="edu_instruction" label="用车申请说明">
                                                 <el-input prefix-icon="el-icon-lock"
                                                           style=" width: 222px"
                                                           :disabled="true"
                                                           type="textarea"
-                                                          v-model="experiment_detail.instruction"></el-input>
+                                                          v-model="carApply_detail.edu_instruction"></el-input>
                                             </el-form-item>
-                                            <el-form-item prop="result" label="驳回原因"
-                                                          v-show="experiment_detail.state===2">
+                                            <el-form-item prop="result" label="驳&ensp;回&ensp;原&ensp;因"
+                                                          v-show="carApply_detail.edu_status===3">
                                                 <el-input prefix-icon="el-icon-lock"
                                                           style=" width: 222px"
                                                           :disabled="true"
                                                           type="textarea"
-                                                          v-model="experiment_detail.result"></el-input>
+                                                          v-model="carApply_detail.edu_result"></el-input>
                                             </el-form-item>
                                         </el-form>
-                                        <div slot="footer" class="dialog-footer" v-show="experiment_detail.state===0">
+                                        <div slot="footer" class="dialog-footer" v-show="carApply_detail.edu_status===1">
                                             <el-tooltip class="item" effect="dark" content="驳回" placement="top-start">
                                                 <el-button type="danger" @click="reject" icon="el-icon-edit"
                                                            circle></el-button>
@@ -252,6 +342,7 @@
 <script src="https://cdn.bootcss.com/element-ui/2.13.2/index.js"></script>
 <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
 <script src="js/common.js"></script>
+<!--<script src="js/date-format.js"></script>-->
 
 <script>
     new Vue({
@@ -259,27 +350,33 @@
         data: {
             tableData: [],
             user: {},
-            experiment_data: [],
+            carApply_data: [],
+            // experiment_data: [],
             page_data: {
                 page_size: 10,
                 current_page: 1,
                 page_total: 200,
                 search: {
-                    state: -1
+                    edu_status: -1
                 }
             },
             eduCarApplyInfo: {},
             dialogFormVisible: false,
             experiment_detail: [],
+            carApply_detail: {
+                experimentApply: {
+                    experiment: {}
+                }
+            },
             options: [
                 {value: -1, name: "全部"},
-                {value: 0, name: "未审核"},
-                {value: 1, name: "已通过"},
-                {value: 2, name: "未通过"},
+                {value: 1, name: "未审核"},
+                {value: 2, name: "已通过"},
+                {value: 3, name: "未通过"},
             ],
             applyId: -1,
             carApplyDialog: false,
-            applyRecord: [],
+            // applyRecord: [],
 
             carApplyRules: {
                 edu_principal: [
@@ -296,7 +393,7 @@
                 axios.get("user/verify").then(({data}) => {
                     if (data) {
                         this.user = data;
-                        this.getPageExperimentData();
+                        this.getPageCarApplyData();
                     } else {
                         location.href = "login.html"
                     }
@@ -306,10 +403,10 @@
 
             },
             updateState() {
-                axios.post("experimentApply/" + this.experiment_detail.id + "/state/" + 1).then(({data}) => {
+                axios.post("carApply/" + this.carApply_detail.id + "/status/" + 2).then(({data}) => {
                     if (data.flag) {
                         this.$message.success(data.message);
-                        location.href = "eubreau.html"
+                        location.href = "carApply-manage.html"
                     } else {
                         this.$message.error(data.message)
                     }
@@ -320,11 +417,11 @@
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                 }).then(({value}) => {
-                    axios.post("experimentApply/" + this.experiment_detail.id + "/state/" + 2 + "/result/" + value)
+                    axios.post("carApply/" + this.carApply_detail.id + "/status/" + 3 + "/edu_result/" + value)
                         .then(({data}) => {
                             if (data.flag) {
                                 this.$message.success(data.message);
-                                location.href = "eubreau.html"
+                                location.href = "carApply-manage.html"
                             } else {
                                 this.$message.error(data.message)
                             }
@@ -333,21 +430,25 @@
             },
             checkDetail(id) {
                 this.dialogFormVisible = true;
-                axios.get("experimentApply/getById/" + id).then(({data}) => {
-                    this.experiment_detail = data;
+                axios.get("carApply/getById/" + id).then(({data}) => {
+                    this.carApply_detail = data;
                 })
             },
             // 查询所有用车申请记录
             getAllRecord(){
                 axios.get("carApply/selectAllRecord").then(({data}) => {
                     this.applyRecord=data;
+                    // this.applyRecord.experimentApply.experi_date = lab.formatDate(this.applyRecord.experimentApply.experi_date);
+                    this.applyRecord.forEach(data => {
+                        data.experimentApply.experi_date = data.experimentApply.experi_date.substring(0, 10);
+                    })
                 })
             },
-            getPageExperimentData() {
-                axios.get("experimentApply/" + this.user.id + "/" + this.page_data.current_page + "/" + this.page_data.page_size + "?state=" + this.page_data.search.state).then(({data}) => {
-                    this.experiment_data = data.data;
-                    this.experiment_data.forEach(data => {
-                        data.experi_date = data.experi_date.substring(0, 10);
+            getPageCarApplyData() {
+                axios.get("carApply/" + this.user.id + "/" + this.page_data.current_page + "/" + this.page_data.page_size + "?status=" + this.page_data.search.edu_status).then(({data}) => {
+                    this.carApply_data = data.data;
+                    this.carApply_data.forEach(data => {
+                        data.experimentApply.experi_date = data.experimentApply.experi_date.substring(0, 10);
                     })
                     this.page_data.page_total = data.total;
                     // if (data.flag) {
@@ -386,7 +487,7 @@
             page_data: {
                 deep: true,
                 handler() {
-                    this.getPageExperimentData();
+                    this.getPageCarApplyData();
                 }
             }
         }

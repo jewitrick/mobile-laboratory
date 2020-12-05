@@ -36,7 +36,7 @@
                         <el-menu-item index="2-1"><i class="el-icon-document-checked"></i>车辆购入记录</el-menu-item>
                         <el-menu-item index="2-2"><i class="el-icon-folder-add"></i>车辆调度</el-menu-item>
                         <el-menu-item index="2-3"><i class="el-icon-setting"></i>车辆保障详情</el-menu-item>
-                        <el-menu-item index="2-3"><i class="el-icon-s-tools"></i>耗材管理</el-menu-item>
+                        <el-menu-item index="2-4"><i class="el-icon-s-tools"></i>耗材管理</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="3">
@@ -48,6 +48,16 @@
                         </el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
+                <el-submenu index="4">
+                    <!--调度中心功能-->
+                    <template slot="title"><i class="el-icon-truck"></i>用车申请管理</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="4-1" @click="location.href='carApply-manage.html' "><i
+                                class="el-icon-document-checked"></i>申请用车列表
+                        </el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+                <!--carApply-manage-->
                 <!--<el-submenu index="3">-->
                 <!--&lt;!&ndash;教育局功能&ndash;&gt;-->
                 <!--<template slot="title"><i class="el-icon-folder-opened"></i>学校课程管理</template>-->
@@ -140,14 +150,14 @@
                                 border
                                 @selection-change="selection"
                                 style="width: 100%">
-                            <el-table-column type="selection" width="55"></el-table-column>
-                            <el-table-column type="index" label="序号" width="50"></el-table-column>
-                            <el-table-column property="realname" label="用户姓名"></el-table-column>
-                            <el-table-column property="username" label="登录昵称"></el-table-column>
-                            <el-table-column property="phone" label="联系方式"></el-table-column>
-                            <el-table-column property="birth" label="出生日期"></el-table-column>
-                            <el-table-column label="用户类别" property="role.role_name"></el-table-column>
-                            <el-table-column label="操作" width="120">
+                            <el-table-column type="selection" width="55" align="center"></el-table-column>
+                            <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+                            <el-table-column property="realname" label="用户姓名" align="center"></el-table-column>
+                            <el-table-column property="username" label="登录昵称" align="center"></el-table-column>
+                            <el-table-column property="phone" label="联系方式" align="center"></el-table-column>
+                            <el-table-column property="birth" label="出生日期" align="center"></el-table-column>
+                            <el-table-column label="用户类别" property="role.role_name" align="center"></el-table-column>
+                            <el-table-column label="操作" width="120" align="center">
                                 <template slot-scope="scope">
                                     <el-button size="mini" type="success" icon="el-icon-edit"
                                                @click="editor_user(scope.row.id)">

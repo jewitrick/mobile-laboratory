@@ -44,4 +44,23 @@ public class CarApplyController {
                                                     @RequestParam(required = false) Long status) {
         return this.carApplyService.findPageByUserId(id, currentPage, pageSize, status);
     }
+
+    @GetMapping("/getById/{id}")
+    CarApply findExperimentById(@PathVariable Long id){
+        return this.carApplyService.findCarApplyById(id);
+    }
+
+    //调度中心通过用车审核
+    @PostMapping("/{id}/status/{status}")
+    public CommonResponse<CarApply> updateState(@PathVariable Long id, @PathVariable int status){
+        return this.carApplyService.updateState(id,status);
+    }
+
+    //调度中心驳回教育局的用车申请
+    @PostMapping("/{id}/status/{status}/edu_result/{edu_result}")
+    public CommonResponse<CarApply> updateStateAndResult(@PathVariable Long id,
+                                                                @PathVariable int status,
+                                                                @PathVariable String edu_result){
+        return this.carApplyService.updateStateAndResult(id,status,edu_result);
+    }
 }

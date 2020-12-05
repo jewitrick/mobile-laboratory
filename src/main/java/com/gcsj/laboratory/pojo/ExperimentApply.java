@@ -38,6 +38,9 @@ public class ExperimentApply {
     private String schoolName;
 
     @Transient
+    private String school_address;
+
+    @Transient
     private Experiment experiment;  // 实验申请记录-实验 多对一
 
     @Transient

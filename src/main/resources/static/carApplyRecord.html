@@ -34,7 +34,7 @@
                     <template slot="title"><i class="el-icon-folder-opened"></i>车辆列表</template>
                     <el-menu-item-group>
                         <el-menu-item index="2-1" @click="location.href='carApplyRecord.html' "><i class="el-icon-document"></i>用车申请记录</el-menu-item>
-                        <el-menu-item index="2-2" @click="location.href='car-apply.html' "><i class="el-icon-folder-add"></i>用车申请</el-menu-item>
+                        <!--<el-menu-item index="2-2" @click="location.href='car-apply.html' "><i class="el-icon-folder-add"></i>用车申请</el-menu-item>-->
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>
@@ -89,13 +89,14 @@
                             <el-table-column property="experimentApply.phone_number" label="学校联系方式" align="center"></el-table-column>
                             <el-table-column property="experimentApply.experi_date" label="实验日期" align="center"></el-table-column>
                             <el-table-column label="实验人数" property="experimentApply.experi_num" align="center"></el-table-column>
-                            <el-table-column label="审核状态" align="center">
+                            <el-table-column label="用车审核状态" align="center">
                                 <template slot-scope="scope">
                                         <el-tag :type="scope.row.edu_status === 1 ? '' : (scope.row.edu_status === 2 ? 'success' : 'danger')">
                                             {{scope.row.edu_status === 1 ? '未审核' : (scope.row.edu_status === 2 ? '已通过' : '未通过')}}
                                         </el-tag>
                                 </template>
                             </el-table-column>
+                            <el-table-column label="审核结果" property="edu_result" align="center"></el-table-column>
                             <!--<el-table-column label="操作" width="120" align="center">-->
                                 <!--<template slot-scope="scope">-->
                                     <!--<el-tooltip class="item" effect="dark" content="查看详情" placement="right">-->
