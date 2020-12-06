@@ -27,6 +27,18 @@ public class UserController {
         return userService.selectAllUsers();
     }
 
+    //查询所有实验员
+    @GetMapping("getAllTeachers")
+    public List<User> selectAllTeachers(){
+        return userService.selectAllTeachers();
+    }
+
+    //查询所有司机
+    @GetMapping("getAllDrivers")
+    public List<User> selectAllDrivers(){
+        return userService.selectAllDrivers();
+    }
+
     //分页查询所有信息
     @GetMapping("/getPageUserData/{currentPage}/{pageSize}")
     public QueryResponse<User> selectPageUserData(@PathVariable("currentPage") int currentPage,

@@ -27,5 +27,5 @@ public class CarCtrlConsume {
     private Long id;
     private Long car_ctrl_id;
     private Long consume_id;
-    private Double cost_count;  // 耗材数量/重量（单位以该耗材的库存单位为准）
+    private Double cost_count;  // 耗材数量/重量（单位以该耗材的库存单位为准
 }

@@ -8,6 +8,7 @@ import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @author Jewitrick
@@ -26,7 +27,12 @@ public class CarCtrl {
     @KeySql(useGeneratedKeys = true)
     private Long id;
     private Long car_apply_id;
+
+    @Transient
+    private CarApply carApply;
+
     private Long car_id;
     private Long driver_id;
     private Long teacher_id;
+    private Integer ctrl_status;
 }

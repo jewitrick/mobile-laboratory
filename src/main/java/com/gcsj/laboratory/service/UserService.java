@@ -90,7 +90,11 @@ public class UserService {
             this.userEduBureauMapper.insert( userEduBureau );
 
         } else if (Objects.equals( 1L, user.getRole_id() )) {
-            this.userMapper.insert( user );
+            this.userMapper.insert( user );     //调度中心
+        } else if (Objects.equals(5L, user.getRole_id() )){
+            this.userMapper.insert(user);    //司机
+        }else if (Objects.equals(4L, user.getRole_id())){
+            this.userMapper.insert(user);       //实验员
         }
         return new CommonResponse<>( true, "注册成功！", null );
     }
@@ -113,5 +117,15 @@ public class UserService {
         List<User> users = this.userMapper.findAllUser();
         PageInfo<User> pageInfo = new PageInfo<>( users );
         return new QueryResponse<>( true, "查询成功！", users, pageInfo.getTotal() );
+    }
+
+    public List<User> selectAllTeachers() {
+        long id=4L;
+        return this.userMapper.selectAllTeachers(id);
+    }
+
+    public List<User> selectAllDrivers(){
+        long id = 5L;
+        return this.userMapper.selectAllDrivers(id);
     }
 }

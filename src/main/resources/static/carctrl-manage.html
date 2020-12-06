@@ -20,23 +20,31 @@
 <div id="app">
     <el-container style="height: 600px; border: 1px solid #eee">
         <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-menu :default-openeds="['1', '4']"
-                     default-active="4-1">
+            <el-menu :default-openeds="['1', '2']"
+                     default-active="2-2">
                 <el-submenu index="1">
                     <!--调度中心功能-->
                     <template slot="title"><i class="el-icon-user"></i>用户管理</template>
                     <el-menu-item-group>
-                        <el-menu-item index="1-1" @click="location.href='index.html' "><i class="el-icon-document-checked"></i>用户列表</el-menu-item>
+                        <el-menu-item index="1-1" @click="location.href='index.html' "><i
+                                class="el-icon-document-checked"></i>用户列表
+                        </el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="2">
                     <!--调度中心功能-->
                     <template slot="title"><i class="el-icon-truck"></i>车辆管理</template>
                     <el-menu-item-group>
-                        <el-menu-item index="2-1"><i class="el-icon-document-checked"></i>车辆购入记录</el-menu-item>
-                        <el-menu-item index="2-2"><i class="el-icon-folder-add"></i>车辆调度</el-menu-item>
+                        <el-menu-item index="2-1" @click="location.href='car-manage.html' "><i
+                                class="el-icon-document-checked"></i>车辆信息
+                        </el-menu-item>
+                        <el-menu-item index="2-2" @click="location.href='carctrl-manage.html' "><i
+                                class="el-icon-folder-add"></i>车辆调度
+                        </el-menu-item>
                         <el-menu-item index="2-3"><i class="el-icon-setting"></i>车辆保障详情</el-menu-item>
-                        <el-menu-item index="2-4"><i class="el-icon-s-tools"></i>耗材管理</el-menu-item>
+                        <el-menu-item index="2-4" @click="location.href='consume-manage.html' "><i
+                                class="el-icon-s-tools"></i>耗材管理
+                        </el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="3">
@@ -45,15 +53,6 @@
                     <el-menu-item-group>
                         <el-menu-item index="3-1" @click="location.href='experi-manage.html' "><i
                                 class="el-icon-document-checked"></i>实验信息
-                        </el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
-                <el-submenu index="4">
-                    <!--调度中心功能-->
-                    <template slot="title"><i class="el-icon-truck"></i>用车申请管理</template>
-                    <el-menu-item-group>
-                        <el-menu-item index="4-1" @click="location.href='carApply-manage.html' "><i
-                                class="el-icon-document-checked"></i>申请用车列表
                         </el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
@@ -149,15 +148,19 @@
                                 </template>
                             </el-table-column>
                             <el-table-column property="edu_name" label="教育局名称" align="center"></el-table-column>
-                            <el-table-column property="experimentApply.schoolName" label="学校名称" align="center"></el-table-column>
+                            <el-table-column property="experimentApply.schoolName" label="学校名称"
+                                             align="center"></el-table-column>
                             <!--<el-table-column property="edu_principal" label="教育局负责人" align="center"></el-table-column>-->
                             <!--<el-table-column property="edu_phone" label="教育局联系方式" align="center"></el-table-column>-->
-                            <el-table-column property="experimentApply.experi_date" label="实验日期" align="center"></el-table-column>
-                            <el-table-column label="实验人数" property="experimentApply.experi_num" align="center"></el-table-column>
+                            <el-table-column property="experimentApply.experi_date" label="实验日期"
+                                             align="center"></el-table-column>
+                            <el-table-column label="实验人数" property="experimentApply.experi_num"
+                                             align="center"></el-table-column>
                             <el-table-column label="审核状态" align="center">
                                 <template slot-scope="scope">
                                     <el-tag :type="scope.row.edu_status === 1 ? '' : (scope.row.edu_status === 2 ? 'success' : 'danger')">
-                                        {{scope.row.edu_status === 1 ? '未审核' : (scope.row.edu_status === 2 ? '已通过' : '未通过')}}
+                                        {{scope.row.edu_status === 1 ? '未审核' : (scope.row.edu_status === 2 ? '已通过' :
+                                        '未通过')}}
                                     </el-tag>
                                 </template>
                             </el-table-column>
@@ -167,11 +170,13 @@
                                         <el-button type="primary" size="mini" @click="checkDetail(scope.row.id)"
                                                    icon="el-icon-edit" circle></el-button>
                                     </el-tooltip>
-                                    <!--<el-tooltip class="item" effect="dark" content="申请用车" placement="right">-->
-                                        <!--<el-button v-show="scope.row.state === 1" :disabled="scope.row.eduStatus === 1 || scope.row.eduStatus === 2" type="warning" size="mini"-->
-                                                   <!--@click="applyCar(scope.row.id)" icon="el-icon-truck"-->
-                                                   <!--circle></el-button>-->
-                                    <!--</el-tooltip>-->
+                                    <el-tooltip class="item" effect="dark" content="车辆调度" placement="right">
+                                        <el-button v-show="scope.row.edu_status === 2"
+                                                   :disabled="scope.row.ctrlStatus === 1 || scope.row.ctrlStatus === 2"
+                                                   type="warning" size="mini"
+                                                   @click="carCtrl(scope.row.id)" icon="el-icon-truck"
+                                                   circle></el-button>
+                                    </el-tooltip>
                                     <!--用车申请详情模态框-->
                                     <el-dialog width="42%" center :visible.sync="dialogFormVisible" top="8vh">
                                         <div slot="title" class="dialog-title">
@@ -248,7 +253,8 @@
                                                 <el-input prefix-icon="el-icon-user"
                                                           style=" width: 222px"
                                                           :disabled="true"
-                                                          v-model="carApply_detail.experimentApply.experi_num" autocomplete="off"
+                                                          v-model="carApply_detail.experimentApply.experi_num"
+                                                          autocomplete="off"
                                                           clearable></el-input>
                                             </el-form-item>
                                             <el-form-item prop="edu_instruction" label="用车申请说明">
@@ -267,7 +273,8 @@
                                                           v-model="carApply_detail.edu_result"></el-input>
                                             </el-form-item>
                                         </el-form>
-                                        <div slot="footer" class="dialog-footer" v-show="carApply_detail.edu_status===1">
+                                        <div slot="footer" class="dialog-footer"
+                                             v-show="carApply_detail.edu_status===1">
                                             <el-tooltip class="item" effect="dark" content="驳回" placement="top-start">
                                                 <el-button type="danger" @click="reject" icon="el-icon-edit"
                                                            circle></el-button>
@@ -279,40 +286,99 @@
                                         </div>
                                     </el-dialog>
 
-                                    <!--用车申请模态框-->
-                                    <el-dialog width="42%" center :visible.sync="carApplyDialog" top="8vh">
+                                    <!--车辆调度模态框-->
+                                    <el-dialog width="42%" center :visible.sync="carCtrlDialog" top="8vh">
                                         <div slot="title" class="dialog-title">
-                                            <h2>填写用车申请人信息</h2>
+                                            <h2>填写车辆调度信息</h2>
                                         </div>
-                                        <el-form :model="eduCarApplyInfo"
+                                        <el-form :model="carCtrlInfo"
                                                  status-icon="true"
                                                  :rules="carApplyRules">
-                                            <el-form-item prop="edu_principal" label="负&ensp;责&ensp;人">
-                                                <el-input prefix-icon="el-icon-user"
-                                                          placeholder="用车申请负责人"
-                                                          v-model="eduCarApplyInfo.edu_principal"
-                                                          autocomplete="off" style=" width: 222px"></el-input>
+                                            <el-form-item prop="car_num" label="车辆号码">
+                                                <el-select size="medium"
+                                                           v-model="carCtrlInfo.car_id"
+                                                           style="width: 300px"
+                                                           placeholder="请选择该实验的车辆">
+                                                    <el-option
+                                                            v-for="(car, index) in cars"
+                                                            :key="index"
+                                                            :label="car.car_name + ' ' + car.car_num "
+                                                            :value="car.id">
+                                                    </el-option>
+                                                </el-select>
                                             </el-form-item>
 
-                                            <el-form-item prop="edu_phone" label="联系方式">
-                                                <el-input prefix-icon="el-icon-phone-outline"
-                                                          style=" width: 222px"
-                                                          placeholder="请输入联系方式"
-                                                          v-model="eduCarApplyInfo.edu_phone"
-                                                          autocomplete="off"
-                                                          clearable></el-input>
+                                            <el-form-item prop="teacher_id" label="实&ensp;验&ensp;员">
+                                                <el-select size="medium"
+                                                           v-model="carCtrlInfo.teacher_id"
+                                                           style="width: 300px"
+                                                           placeholder="请选择该车辆的实验员">
+                                                    <el-option
+                                                            v-for="(teacher, index) in teachers"
+                                                            :key="index"
+                                                            :label="teacher.realname"
+                                                            :value="teacher.id">
+                                                    </el-option>
+                                                </el-select>
                                             </el-form-item>
 
-                                            <el-form-item prop="edu_instruction" label="用车说明">
+                                            <el-form-item prop="driver_id" label="司&emsp;&emsp;机">
+                                                <el-select size="medium"
+                                                           v-model="carCtrlInfo.driver_id"
+                                                           style="width: 300px"
+                                                           placeholder="请选择该车辆的司机">
+                                                    <el-option
+                                                            v-for="(driver, index) in drivers"
+                                                            :key="index"
+                                                            :label="driver.realname"
+                                                            :value="driver.id">
+                                                    </el-option>
+                                                </el-select>
+                                            </el-form-item>
+                                            <el-form-item prop="consume_id"
+                                                          v-for="(consume, index) in carCtrlInfo.consumeList"
+                                                          label="耗材名称">
+                                                <el-input placeholder="请输入耗材数量" v-model="consume.cost_count"
+                                                          class="input-with-select" style="width: 300px">
+                                                    <el-select slot="prepend" v-model="consume.consume_id"
+                                                               size="medium" style="width: 100px"
+                                                               placeholder="耗材">
+                                                        <el-option
+                                                                v-for="(selectConsume, index) in consumes"
+                                                                :key="index"
+                                                                :label="selectConsume.name"
+                                                                :value="selectConsume.id"
+                                                        ></el-option>
+                                                    </el-select>
+                                                    <el-button slot="append">
+                                                        <span v-text="getConsumeUnit(consume.consume_id)"></span>
+                                                    </el-button>
+                                                </el-input>
+                                                <el-button @click.prevent="removeConsume(consume)">删除</el-button>
+                                            </el-form-item>
+
+                                            <!--<el-form-item prop="cost_count" label="耗材数量">
+                                            <el-select v-model="carCtrlInfo.consume"
+                                                           size="medium"
+                                                           placeholder="耗材">
+                                                    <el-option
+                                                            v-for="(consume, index) in consumes"
+                                                            :key="index"
+                                                            :label="consume.name"
+                                                            :value="consume.id"
+                                                    ></el-option>
+                                                </el-select>
                                                 <el-input prefix-icon="el-icon-lock"
                                                           style=" width: 222px"
-                                                          placeholder="请输入用车说明"
-                                                          type="textarea"
-                                                          v-model="eduCarApplyInfo.edu_instruction"></el-input>
-                                            </el-form-item>
+                                                          placeholder="请输入耗材数量"
+                                                          v-model="carCtrlInfo.cost_count">
+                                                    <template slot="append">单位</template>
+                                                </el-input>
+                                            </el-form-item>-->
                                         </el-form>
                                         <div slot="footer" class="dialog-footer">
-                                            <el-button type="primary" @click="uploadCarApply">提交申请</el-button>
+                                            <el-button type="success" @click="addConsume">新增耗材</el-button>
+                                            <el-button type="primary" @click="uploadCarCtrl">确认派车</el-button>
                                         </div>
                                     </el-dialog>
                                     <!--<el-button size="mini" type="danger" slot="reference" icon="el-icon-delete"-->
@@ -360,7 +426,16 @@
                     edu_status: -1
                 }
             },
-            eduCarApplyInfo: {},
+            teachers: [],
+            drivers: [],
+            cars: [],
+            consumes: [],
+            carCtrlData: [],
+            carCtrlInfo: {
+                consumeList: [
+                    {consume_id: '', cost_count: undefined}
+                ]
+            },
             dialogFormVisible: false,
             experiment_detail: [],
             carApply_detail: {
@@ -375,9 +450,7 @@
                 {value: 3, name: "未通过"},
             ],
             applyId: -1,
-            carApplyDialog: false,
-            // applyRecord: [],
-
+            carCtrlDialog: false,
             carApplyRules: {
                 edu_principal: [
                     {required: true, message: '请输入负责人名称', trigger: 'blur'},
@@ -406,7 +479,7 @@
                 axios.post("carApply/" + this.carApply_detail.id + "/status/" + 2).then(({data}) => {
                     if (data.flag) {
                         this.$message.success(data.message);
-                        location.href = "carApply-manage.html"
+                        location.href = "carctrl-manage.html"
                     } else {
                         this.$message.error(data.message)
                     }
@@ -434,16 +507,6 @@
                     this.carApply_detail = data;
                 })
             },
-            // 查询所有用车申请记录
-            getAllRecord(){
-                axios.get("carApply/selectAllRecord").then(({data}) => {
-                    this.applyRecord=data;
-                    // this.applyRecord.experimentApply.experi_date = lab.formatDate(this.applyRecord.experimentApply.experi_date);
-                    this.applyRecord.forEach(data => {
-                        data.experimentApply.experi_date = data.experimentApply.experi_date.substring(0, 10);
-                    })
-                })
-            },
             getPageCarApplyData() {
                 axios.get("carApply/" + this.user.id + "/" + this.page_data.current_page + "/" + this.page_data.page_size + "?status=" + this.page_data.search.edu_status).then(({data}) => {
                     this.carApply_data = data.data;
@@ -464,24 +527,103 @@
             current_change(click_page) {
                 this.page_data.current_page = click_page;
             },
-            applyCar(applyId) {
-                this.carApplyDialog = true;
+            carCtrl(applyId) {
+                this.carCtrlDialog = true;
                 this.applyId = applyId;
+                axios.get("getAllDrivers").then(({data}) => {
+                    this.drivers = data;
+                });
+                axios.get("getAllTeachers").then(({data}) => {
+                    this.teachers = data;
+                });
+                axios.get("car/getAllCars").then(({data}) => {
+                    this.cars = data;
+                });
             },
-            uploadCarApply() {
-                axios.post("carApply/" + this.applyId + '/' + this.user.id, this.eduCarApplyInfo).then(({data}) => {
-                    if (data.flag) {
+            // uploadCarApply() {
+            //     axios.post("carApply/" + this.applyId + '/' + this.user.id, this.eduCarApplyInfo).then(({data}) => {
+            //         if (data.flag) {
+            //             this.$message.success(data.message);
+            //             location.href = "eubreau.html";
+            //         } else {
+            //             this.$message.error(data.message)
+            //         }
+            //     })
+            // },
+            //获取耗材数量单位
+            getConsumeUnit(consumeId) {
+                if (consumeId === '') return '单位';
+                let temp = this.consumes.filter(consume => consume.id === consumeId);
+                if (temp) {
+                    return temp[0].unit;
+                }
+                return "单位";
+            },
+            //获取耗材库存
+            getConsumeStock(consumeId){
+                if (consumeId === '') return -1;
+                let temp = this.consumes.filter(consume => consume.id === consumeId);
+                if (temp) {
+                    return temp[0].stock;
+                }
+                return -1;
+            },
+            addConsume() {
+                this.carCtrlInfo.consumeList.push({consume_id: '', cost_count: undefined})
+            },
+            removeConsume(item) {
+                let index = this.carCtrlInfo.consumeList.indexOf(item);
+                if (index !== -1) {
+                    this.carCtrlInfo.consumeList.splice(index, 1)
+                }
+            },
+            uploadCarCtrl() {
+                console.log(this.carCtrlInfo);
+                let unitList = ['台', '个', '支'];
+                this.carCtrlInfo.consumeList.forEach(consume => {
+                    // 非空
+                    if (consume.consume_id === '' || consume.cost_count === undefined) {
+                        this.$message.error("请选择耗材并输入数量！");
+                        return;
+                    }
+                    // 数量不能小于0
+                    if (consume.cost_count <= 0) {
+                        this.$message.error("所有的耗材数量都不能小于0！");
+                        return;
+                    }
+
+                    //数量不能大于库存
+                    if (consume.cost_count > this.getConsumeStock(consume.consume_id)) {
+                        this.$message.error("耗材数量都不能大于！");
+                        return;
+                    }
+                    // 数量与单位的校验
+                    if (unitList.includes(this.getConsumeUnit(consume.consume_id)) &&
+                        consume.cost_count % 1 !== 0) {
+                        this.$message.error("数量与单位不匹配！");
+                        return;
+                    }
+                });
+                // 发送请求
+                axios.post("carCtrl/uploadCarCtrl/"+this.applyId,this.carCtrlInfo).then(({data}) => {
+                    if (data.flag){
                         this.$message.success(data.message);
-                        location.href = "eubreau.html";
-                    } else {
-                        this.$message.error(data.message)
+                        location.href="carctrl-manage.html"
+                    } else{
+                        this.$message.error(data.message);
                     }
                 })
+
             }
         },
         created() {
             this.verify();
-            this.getAllRecord();
+            axios.get("consume/getAllConsumes").then(({data}) => {
+                this.consumes = data;
+            });
+            axios.get("carCtrl/getCarCtrl").then(({data}) => {
+                this.carCtrlData=data;
+            })
         },
         watch: {
             page_data: {

@@ -8,6 +8,7 @@ import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * @author Jewitrick
@@ -26,6 +27,8 @@ public class Consume {
     @Id
     @KeySql(useGeneratedKeys = true)
     private Long id;
-    private String name;
-    private Double stock;
+    private String name;       //耗材名称
+    private Double stock;      //耗材库存
+    private String unit;       //数量单位
+    private Date date;         //存入日期
 }

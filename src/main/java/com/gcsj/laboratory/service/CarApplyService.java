@@ -1,12 +1,10 @@
 package com.gcsj.laboratory.service;
 
 import com.gcsj.laboratory.mapper.CarApplyMapper;
+import com.gcsj.laboratory.mapper.CarCtrlMapper;
 import com.gcsj.laboratory.mapper.UserEduBureauMapper;
 import com.gcsj.laboratory.mapper.UserMapper;
-import com.gcsj.laboratory.pojo.CarApply;
-import com.gcsj.laboratory.pojo.ExperimentApply;
-import com.gcsj.laboratory.pojo.User;
-import com.gcsj.laboratory.pojo.UserEduBureau;
+import com.gcsj.laboratory.pojo.*;
 import com.gcsj.laboratory.pojo.resp.CommonResponse;
 import com.gcsj.laboratory.pojo.resp.QueryResponse;
 import com.github.pagehelper.PageHelper;
@@ -29,6 +27,9 @@ public class CarApplyService {
 
     @Autowired
     private UserEduBureauMapper userEduBureauMapper;
+
+    @Autowired
+    private CarCtrlMapper carCtrlMapper;
 
     @Transactional
     public CommonResponse<CarApply> insert(long id, long user_id, CarApply carApply) {
@@ -88,6 +89,7 @@ public class CarApplyService {
         return new CommonResponse<>(false, "审核失败", null);
     }
 
+    @Transactional
     public CommonResponse<CarApply> updateStateAndResult(Long id, int status, String result) {
 
         CarApply carApply = this.carApplyMapper.selectByPrimaryKey(id);

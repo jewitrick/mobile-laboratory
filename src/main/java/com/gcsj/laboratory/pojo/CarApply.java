@@ -29,6 +29,9 @@ public class CarApply {
     private Integer edu_status;             //用车申请状态
 
     @Transient
+    private Integer ctrlStatus;             //派车状态
+
+    @Transient
     private String edu_name;
 
     @Transient

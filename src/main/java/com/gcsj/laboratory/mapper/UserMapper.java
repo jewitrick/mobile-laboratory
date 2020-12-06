@@ -22,4 +22,10 @@ public interface UserMapper extends Mapper<User> {
     @ResultMap("userMapper")
     @Select("select * from user where id = #{id}")
     User findById(long id);
+
+    @Select("select * from user where role_id = #{roleId}")
+    List<User> selectAllTeachers(long roleId);
+
+    @Select("select * from user where role_id = #{roleId}")
+    List<User> selectAllDrivers(long roleId);
 }

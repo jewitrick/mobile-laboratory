@@ -26,17 +26,17 @@
                     <!--调度中心功能-->
                     <template slot="title"><i class="el-icon-user"></i>用户管理</template>
                     <el-menu-item-group>
-                        <el-menu-item index="1-1"><i class="el-icon-document-checked"></i>用户列表</el-menu-item>
+                        <el-menu-item index="1-1" @click="location.href='index.html' "><i class="el-icon-document-checked"></i>用户列表</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="2">
                     <!--调度中心功能-->
                     <template slot="title"><i class="el-icon-truck"></i>车辆管理</template>
                     <el-menu-item-group>
-                        <el-menu-item index="2-1"><i class="el-icon-document-checked"></i>车辆购入记录</el-menu-item>
-                        <el-menu-item index="2-2"><i class="el-icon-folder-add"></i>车辆调度</el-menu-item>
+                        <el-menu-item index="2-1" @click="location.href='car-manage.html' "><i class="el-icon-document-checked"></i>车辆信息</el-menu-item>
+                        <el-menu-item index="2-2" @click="location.href='carctrl-manage.html' "><i class="el-icon-folder-add"></i>车辆调度</el-menu-item>
                         <el-menu-item index="2-3"><i class="el-icon-setting"></i>车辆保障详情</el-menu-item>
-                        <el-menu-item index="2-3"><i class="el-icon-s-tools"></i>耗材管理</el-menu-item>
+                        <el-menu-item index="2-4" @click="location.href='consume-manage.html' "><i class="el-icon-s-tools"></i>耗材管理</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="3">
@@ -45,15 +45,6 @@
                     <el-menu-item-group>
                         <el-menu-item index="3-1" @click="location.href='experi-manage.html' "><i
                                 class="el-icon-document-checked"></i>实验信息
-                        </el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
-                <el-submenu index="4">
-                    <!--调度中心功能-->
-                    <template slot="title"><i class="el-icon-truck"></i>用车申请管理</template>
-                    <el-menu-item-group>
-                        <el-menu-item index="4-1" @click="location.href='carApply-manage.html' "><i
-                                class="el-icon-document-checked"></i>申请用车列表
                         </el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
