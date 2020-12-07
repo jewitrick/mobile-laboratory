@@ -28,4 +28,7 @@ public interface UserMapper extends Mapper<User> {
 
     @Select("select * from user where role_id = #{roleId}")
     List<User> selectAllDrivers(long roleId);
+
+    @Select("select realname from user where id = #{id}")
+    String findRealnameByUserId(long id);
 }

@@ -25,6 +25,7 @@ public class CarService {
     @Autowired
     private CarMapper carMapper;
 
+    @Transactional
     public CommonResponse<Car> insertCar(Car car) {
         int i = this.carMapper.insert(car);
         if (i==1){
@@ -50,6 +51,7 @@ public class CarService {
         return this.carMapper.deleteByPrimaryKey(id);
     }
 
+    @Transactional
     public CommonResponse<Car> updateCar(long id, Car updateCar) {
         int i = this.carMapper.updateByPrimaryKey(updateCar);
         if (i == 1) {

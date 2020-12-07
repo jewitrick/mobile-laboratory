@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>实验管理</title>
+    <title>车辆保障列表</title>
     <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.13.2/theme-chalk/index.css">
     <style>
         .el-header {
@@ -21,7 +21,7 @@
     <el-container style="height: 600px; border: 1px solid #eee">
         <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
             <el-menu :default-openeds="['1', '2']"
-                     default-active="2-4">
+                     default-active="2-3">
                 <el-submenu index="1">
                     <!--调度中心功能-->
                     <template slot="title"><i class="el-icon-user"></i>用户管理</template>
@@ -35,7 +35,7 @@
                     <el-menu-item-group>
                         <el-menu-item index="2-1" @click="location.href='car-manage.html' "><i class="el-icon-document-checked"></i>车辆信息</el-menu-item>
                         <el-menu-item index="2-2" @click="location.href='carctrl-manage.html' "><i class="el-icon-folder-add"></i>车辆调度</el-menu-item>
-                        <el-menu-item index="2-3" @click="location.href='carSave-manage.html'"><i class="el-icon-setting"></i>车辆保障详情</el-menu-item>
+                        <el-menu-item index="2-3"><i class="el-icon-setting"></i>车辆保障详情</el-menu-item>
                         <el-menu-item index="2-4" @click="location.href='consume-manage.html' "><i class="el-icon-s-tools"></i>耗材管理</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
@@ -48,51 +48,6 @@
                         </el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
-
-                <!--carApply-manage-->
-                <!--<el-submenu index="3">-->
-                <!--&lt;!&ndash;教育局功能&ndash;&gt;-->
-                <!--<template slot="title"><i class="el-icon-folder-opened"></i>学校课程管理</template>-->
-                <!--<el-menu-item-group>-->
-                <!--<el-menu-item index="3-1"><i class="el-icon-document-checked"></i>实验申请列表</el-menu-item>-->
-                <!--<el-menu-item index="3-2"><i class="el-icon-document"></i>用车申请记录</el-menu-item>-->
-                <!--<el-menu-item index="3-3"><i class="el-icon-folder-add"></i>用车申请</el-menu-item>-->
-                <!--</el-menu-item-group>-->
-                <!--</el-submenu>-->
-
-                <!--<el-submenu index="4">-->
-                <!--&lt;!&ndash;学校功能&ndash;&gt;-->
-                <!--<template slot="title"><i class="el-icon-folder-opened"></i>实验管理</template>-->
-                <!--<el-menu-item-group>-->
-                <!--<el-menu-item index="4-1"><i class="el-icon-document-checked"></i>实验申请记录</el-menu-item>-->
-                <!--<el-menu-item index="4-2"><i class="el-icon-folder-add"></i>实验申请</el-menu-item>-->
-                <!--</el-menu-item-group>-->
-
-                <!--</el-submenu>-->
-                <!--<el-submenu index="5">-->
-                <!--&lt;!&ndash;学校功能&ndash;&gt;-->
-                <!--<template slot="title"><i class="el-icon-tickets"></i>课程安排</template>-->
-                <!--<el-menu-item-group>-->
-                <!--<el-menu-item index="5-1"><i class="el-icon-notebook-1"></i>课程表</el-menu-item>-->
-                <!--&lt;!&ndash;<el-menu-item index="2-2">选项2</el-menu-item>&ndash;&gt;-->
-                <!--</el-menu-item-group>-->
-                <!--</el-submenu>-->
-                <!--<el-submenu index="6">-->
-                <!--&lt;!&ndash;司机功能&ndash;&gt;-->
-                <!--<template slot="title"><i class="el-icon-truck"></i>车辆安排</template>-->
-                <!--<el-menu-item-group>-->
-                <!--<el-menu-item index="6-1"><i class="el-icon-notebook-2"></i>车辆调度表</el-menu-item>-->
-                <!--&lt;!&ndash;<el-menu-item index="2-2">选项2</el-menu-item>&ndash;&gt;-->
-                <!--</el-menu-item-group>-->
-                <!--</el-submenu>-->
-                <!--<el-submenu index="7">-->
-                <!--&lt;!&ndash;实验员功能&ndash;&gt;-->
-                <!--<template slot="title"><i class="el-icon-truck"></i>车辆安排</template>-->
-                <!--<el-menu-item-group>-->
-                <!--<el-menu-item index="7-1"><i class="el-icon-notebook-2"></i>车辆调度表</el-menu-item>-->
-                <!--&lt;!&ndash;<el-menu-item index="2-2">选项2</el-menu-item>&ndash;&gt;-->
-                <!--</el-menu-item-group>-->
-                <!--</el-submenu>-->
             </el-menu>
         </el-aside>
 
@@ -118,50 +73,59 @@
             <el-main>
                 <el-card shadow="never" class="card">
                     <div slot="header" class="clearfix">
-                        <span>耗材列表</span>
+                        <span>实验列表</span>
                         <el-button
                                 type="success"
                                 size="small"
                                 icon="el-icon-plus"
                                 style="float:right"
-                                @click="addConsume"
+                                @click="addCarSave"
                         >新增</el-button>
                         <!--新增实验信息对话框-->
-                        <el-dialog title="填写耗材信息"  :visible.sync="addConsumeVisible">
-                            <el-form :model="add_Consume" :rules="addConsumeRule" inline="true">
-                                <el-form-item prop="name" label="耗材名称">
-                                    <el-input prefix-icon="el-icon-user"
-                                              placeholder="请输入耗材名称"
-                                              v-model="add_Consume.name"
-                                              autocomplete="off"
+                        <el-dialog title="车辆保障信息" :visible.sync="addCarSaveVisible">
+                            <el-form :model="add_carSave" inline="true">
+                                <el-form-item  label="车牌号码">
+                                    <!--<el-input prefix-icon="el-icon-phone-school" placeholder="请输入您所在的学校" v-model="user.schoolName" autocomplete="off"-->
+                                    <!--clearable></el-input>-->
+                                    <el-autocomplete
+                                            class="inline-input"
+                                            prefix-icon="el-icon-phone-car"
+                                            v-model="add_carSave.car_num"
+                                            :fetch-suggestions="querySearchCar"
+                                            value-key="car_num"
+                                            placeholder="请输入车牌号码"
+                                    ></el-autocomplete>
+                                </el-form-item>
+                                <el-form-item prop="save_item" label="保障项目">
+                                    <el-input prefix-icon="el-icon-user" placeholder="请输入保障项目"
+                                              v-model="add_carSave.save_item" autocomplete="off"
                                               clearable></el-input>
                                 </el-form-item>
-                                <el-form-item prop="stock" label="耗材库存">
-                                    <el-input prefix-icon="el-icon-user"
-                                              placeholder="请填写耗材库存"
-                                              v-model="add_Consume.stock"
-                                              autocomplete="off"
-                                              clearable></el-input>
-                                </el-form-item>
-                                <el-form-item prop="date" label="购入日期">
+                                <el-form-item prop="save_date" label="保障日期">
                                     <el-date-picker type="date"
                                                     :picker-options="pickerOptions"
-                                                    placeholder="请选择购买日期"
-                                                    v-model="add_Consume.date"
+                                                    placeholder="请选择保障日期"
+                                                    v-model="add_carSave.save_date"
                                     ></el-date-picker>
                                 </el-form-item>
-                                <el-form-item prop="unit" label="耗材单位">
-                                    <el-input prefix-icon="el-icon-notebook-1"
-                                              placeholder="请输入耗材单位"
-                                              style="width: 300px"
-                                              v-model="add_Consume.unit"
+                                <el-form-item prop="save_pay" label="保障费用">
+                                    <el-input prefix-icon="el-icon-phone-outline"
+                                              placeholder="请输入保障费用（元）"
+                                              v-model="add_carSave.save_pay"
+                                              autocomplete="off"
+                                              clearable></el-input>
+                                </el-form-item>
+                                <el-form-item prop="save_desc" label="保障描述">
+                                    <el-input prefix-icon="el-icon-user"
+                                              placeholder="请输入保障描述"
+                                              v-model="add_carSave.save_desc"
                                               autocomplete="off"
                                               clearable></el-input>
                                 </el-form-item>
                             </el-form>
                             <div slot="footer" class="dialog-footer">
-                                <el-button @click="addConsumeVisible = false">取 消</el-button>
-                                <el-button type="primary" @click="insert_consume">确 定</el-button>
+                                <el-button @click="addCarSaveVisible = false">取 消</el-button>
+                                <el-button type="primary" @click="insert_carSave">确 定</el-button>
                             </div>
                         </el-dialog>
                     </div>
@@ -175,68 +139,75 @@
                         >{{selection_button_title}}
                         </el-button>
                         <el-table
-                                :data="consume_data"
+                                :data="carSave_data"
                                 max-height="350"
                                 border
                                 @selection-change="selection"
                                 style="width: 100%">
                             <el-table-column type="selection" width="55" align="center"></el-table-column>
                             <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
-                            <el-table-column property="name" label="耗材名称" align="center"></el-table-column>
-                            <el-table-column property="stock" align="center" label="耗材库存"></el-table-column>
-                            <el-table-column property="unit" align="center" label="耗材单位"></el-table-column>
-                            <el-table-column property="date" label="最新购入日期" align="center"></el-table-column>
+                            <el-table-column property="car.car_num" label="车牌号码" align="center"></el-table-column>
+                            <el-table-column property="save_item" label="保障项目" align="center"></el-table-column>
+                            <el-table-column property="save_pay" label="保障费用（元）" align="center"></el-table-column>
+                            <el-table-column property="save_date" label="保障日期" align="center"></el-table-column>
+                            <el-table-column property="save_desc" label="保障描述" align="center"></el-table-column>
+                            <el-table-column property="realName" label="经手人" align="center"></el-table-column>
                             <el-table-column label="操作" width="120" align="center">
                                 <template slot-scope="scope">
                                     <el-button size="mini" type="success" icon="el-icon-edit"
-                                               @click="editor_consume(scope.row.id)">
+                                               @click="editor_car_Save(scope.row.id)">
                                     </el-button>
-                                    <el-dialog title="耗材信息" :visible.sync="consumeInfoVisible">
-                                        <el-form :model="edit_consume" inline="true">
-                                            <!--<el-form-item prop="experimentType" label="实验类型">-->
-                                                <!--<el-select prefix-icon="el-icon-phone-outline" style="width: 300px"-->
-                                                           <!--v-model="edit_experiment.type_id" placeholder="请选择实验类型">-->
-                                                    <!--<el-option v-for="(experimentType, index) in experimentTypes"-->
-                                                               <!--:key="index"-->
-                                                               <!--:label="experimentType.type_name"-->
-                                                               <!--:value="experimentType.id">-->
-                                                    <!--</el-option>-->
-                                                <!--</el-select>-->
-                                            <!--</el-form-item>-->
-                                            <el-form-item prop="name" label="耗材名称">
-                                                <el-input prefix-icon="el-icon-user" placeholder="请输入耗材名称"
-                                                          style="width: 300px"
-                                                          v-model="edit_consume.name" autocomplete="off"
-                                                          clearable></el-input>
-                                            </el-form-item>
-                                            <el-form-item prop="stock" label="耗材数量">
-                                                <el-input prefix-icon="el-icon-notebook-1"
-                                                          placeholder="请输入车辆名称"
-                                                          style="width: 300px"
-                                                          v-model="edit_consume.stock"
+                                    <el-dialog title="车辆保障信息" :visible.sync="dialogFormVisible">
+                                        <el-form :model="edit_carSave" inline="true">
+                                            <el-form-item prop="car.car_num" label="&emsp;车牌号码">
+                                                <el-input prefix-icon="el-icon-truck"
+                                                          placeholder="请输入车牌号码"
+                                                          :disabled="true"
+                                                          v-model="edit_carSave.car.car_num"
                                                           autocomplete="off"
                                                           clearable></el-input>
                                             </el-form-item>
-                                            <el-form-item prop="date" label="购入日期">
-                                                <el-date-picker type="date" v-model="edit_consume.date"
+                                            <el-form-item prop="save_item" label="&emsp;保障项目">
+                                                <el-input prefix-icon="el-icon-setting"
+                                                          placeholder="请输入保障项目"
+                                                          v-model="edit_carSave.save_item"
+                                                          autocomplete="off"
+                                                          clearable></el-input>
+                                            </el-form-item>
+                                            <el-form-item prop="save_pay" label="保障费用">
+                                                <el-input prefix-icon="el-icon-coin"
+                                                          placeholder="请输入保障费用（元）"
+                                                          v-model="edit_carSave.save_pay"
+                                                          autocomplete="off"
+                                                          clearable></el-input>
+                                            </el-form-item>
+                                            <el-form-item prop="save_date" label="&emsp;保障日期">
+                                                <el-date-picker type="date"
                                                                 :picker-options="pickerOptions"
-                                                                style="width: 300px"
-                                                                placeholder="请选择出生日期"
-                                                                v-model="edit_consume.date"
+                                                                placeholder="请选择保障日期"
+                                                                autocomplete="off"
+                                                                clearable
+                                                                v-model="edit_carSave.save_date"
                                                 ></el-date-picker>
                                             </el-form-item>
-                                            <el-form-item prop="unit" label="耗材单位">
-                                                <el-input prefix-icon="el-icon-notebook-1"
-                                                          placeholder="请输入耗材单位"
-                                                          style="width: 300px"
-                                                          v-model="edit_consume.unit"
+                                            <el-form-item prop="save_desc" label="&emsp;保障描述">
+                                                <el-input prefix-icon="el-icon-tickets"
+                                                          placeholder="请输入保障描述"
+                                                          v-model="edit_carSave.save_desc"
+                                                          autocomplete="off"
+                                                          clearable></el-input>
+                                            </el-form-item>
+                                            <el-form-item prop="realName" label="&emsp;经手人">
+                                                <el-input prefix-icon="el-icon-user"
+                                                          v-model="edit_carSave.realName"
+                                                          :disabled="true"
                                                           autocomplete="off"
                                                           clearable></el-input>
                                             </el-form-item>
                                         </el-form>
                                         <div slot="footer" class="dialog-footer">
-                                            <el-button @click="consumeInfoVisible = false">取 消</el-button>
-                                            <el-button type="primary" @click="update_consume">确 定</el-button>
+                                            <el-button @click="dialogFormVisible = false">取 消</el-button>
+                                            <el-button type="primary" @click="update_carSave">确 定</el-button>
                                         </div>
                                     </el-dialog>
                                     <el-popconfirm
@@ -244,8 +215,8 @@
                                             cancelButtonText="取消"
                                             confirmButtonType="danger"
                                             cancelButtonType="success"
-                                            @onConfirm="delete_consume(scope.row.id)"
-                                            title="确认删除该耗材吗？">
+                                            @onConfirm="delete_experiment(scope.row.id)"
+                                            title="确认删除该实验信息吗？">
                                         <el-button size="mini" slot="reference" type="danger" icon="el-icon-delete">
                                         </el-button>
                                     </el-popconfirm>
@@ -301,75 +272,80 @@
                     return time.getTime() > Date.now()
                 }
             },
-            edit_consume: {},
-            add_Consume: {},
-            consumeInfoVisible: false,
-            addConsumeVisible: false,
+            edit_carSave: {
+                car: {}
+            },
+            add_carSave: {},
+            carData: [],
+            dialogFormVisible: false,
+            addCarSaveVisible: false,
             formLabelWidth: '120px',
-            consume_data: [],
+            carSave_data: [],
             page_data: {
                 page_size: 5,
                 current_page: 1,
                 page_total: 200,
             },
-            addConsumeRule: {
-                name: [{ required: true, message: '请输入耗材名称', trigger: 'blur' }],
-                stock: [{ required: true, message: '请填写耗材数量', trigger: 'blur' }],
-                date: [{ type: 'date', required: true, message: '请选择购入日期', trigger: 'change' }],
-            }
         },
         methods: {
             logout() {
 
             },
-            getAllConsumeData() {
-                // axios.get("experimetnType").then(({data}) => {
-                //     this.experimentTypes = data;
-                // })
-                axios.get("consume/" + this.page_data.current_page + "/" + this.page_data.page_size).then(({data}) => {
-                    this.consume_data = data.data;
-                    this.consume_data.forEach(data => {
-                        data.date=data.date.substring(0,10)
-                    })
-                    this.page_data.page_total = data.total;
-                    // this.user_data.forEach(data => {
-                    //     data.birth = data.birth.substring(0, 10);
-                    // })
+            verify() {
+                axios.get("user/verify").then(({data}) => {
+                    if (data) {
+                        this.user = data;
+                        this.getAllCarSaveData();
+                    } else {
+                        location.href = "login.html"
+                    }
                 })
             },
-            addConsume() {
-                this.addConsumeVisible = true;
+            getAllCarSaveData() {
+                axios.get("carSave/" + this.page_data.current_page + "/" + this.page_data.page_size).then(({data}) => {
+                    this.carSave_data = data.data;
+                    this.carSave_data.forEach(data => {
+                        data.save_date = data.save_date.substring(0, 10);
+                    });
+                    this.page_data.page_total = data.total;
+                })
             },
-            editor_consume(id) {
-                this.consumeInfoVisible = true;
-                axios.get("consume/getConsumeById/" + id).then(({data}) => {
-                    this.edit_consume = data;
+            addCarSave() {
+                this.addCarSaveVisible = true;
+                //获取全部车辆
+                axios.get("car/getAllCars").then(({data}) => {
+                    this.car_data=data;
+                })
+            },
+            editor_car_Save(id) {
+                this.dialogFormVisible = true;
+                axios.get("carSave/getCarSaveById/" + id).then(({data}) => {
+                    this.edit_carSave = data;
                 })
                 // this.user_form = this.user_data[index];
                 // this.dialog_title = "修改（" + this.user_data[index].user_name + "）";
                 // this.dialog_viside_state = true;
-
             },
-            update_consume() {
-                this.edit_consume.date=lab.formatDate(this.edit_consume.date)
-                axios.put("consume/updateConsume/" + this.edit_consume.id, this.edit_consume).then(({data}) => {
+            update_carSave() {
+                this.edit_carSave.save_date=lab.formatDate(this.edit_carSave.save_date);
+                axios.put("carSave/updateCarSave/" + this.edit_carSave.id, this.edit_carSave).then(({data}) => {
                     if (data.flag) {
                         this.$message.success(data.message);
                         setTimeout(() => {
-                            location.href = "consume-manage.html";
+                            location.href = "carSave-manage.html";
                         }, 1000);
                     } else {
                         this.$message.error(data.message);
                     }
                 });
             },
-            insert_consume() {
-                this.add_Consume.date=lab.formatDate(this.add_Consume.date);
-                axios.post("consume/addConsume", this.add_Consume).then(({data}) => {
+            insert_carSave() {
+                this.add_carSave.save_date=lab.formatDate(this.add_carSave.save_date);
+                axios.post("carSave/addCarSave/"+this.user.id, this.add_carSave).then(({data}) => {
                     if (data.flag) {
                         this.$message.success(data.message);
                         setTimeout(() => {
-                            location.href = "consume-manage.html";
+                            location.href = "carSave-manage.html";
                         }, 1000);
                     } else {
                         this.$message.error(data.message);
@@ -379,12 +355,12 @@
             selection(select_data) {
                 if (
                     select_data.length > 0 &&
-                    this.experiment_data.length != select_data.length
+                    this.carSave_data.length != select_data.length
                 ) {
                     this.selection_button_title = "已选择" + select_data.length;
                     this.selection_button_state = false;
                     this.selection_data = select_data;
-                } else if (this.experiment_data.length == select_data.length) {
+                } else if (this.carSave_data.length == select_data.length) {
                     this.selection_button_title = "已全选";
                     this.selection_button_state = false;
                     this.selection_data = select_data;
@@ -393,8 +369,8 @@
                     this.selection_button_state = true;
                 }
             },
-            delete_consume(id) {
-                axios.delete('consume/deleteById/' + id).then(() => this.getAllConsumeData())
+            delete_experiment(id) {
+                axios.delete('deleteExperiment?id=' + id).then(() => this.getAllCarSaveData())
             },
             show_selection() {
                 this.$message.success("已打印选择数据成功，请打开检查查看");
@@ -406,15 +382,27 @@
             current_change(click_page) {
                 this.page_data.current_page = click_page;
             },
+            //查找所有的车辆
+            querySearchCar(queryString, cb) {
+                var carData = this.car_data;
+                var results = queryString ? carData.filter(this.createFilterCar(queryString)) : carData;
+                // 调用 callback 返回建议列表的数据
+                cb(results);
+            },
+            createFilterCar(queryString) {
+                return (car) => {
+                    return (car.car_num.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                };
+            },
         },
         created() {
-            this.getAllConsumeData();
+            this.verify();
         },
         watch: {
             page_data: {
                 deep: true,
                 handler() {
-                    this.getAllConsumeData();
+                    this.getAllCarSaveData();
                 },
             },
         },

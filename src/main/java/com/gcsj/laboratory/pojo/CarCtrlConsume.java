@@ -8,6 +8,7 @@ import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @author Jewitrick
@@ -28,4 +29,7 @@ public class CarCtrlConsume {
     private Long car_ctrl_id;
     private Long consume_id;
     private Double cost_count;  // 耗材数量/重量（单位以该耗材的库存单位为准
+
+    @Transient
+    private Consume consume;
 }

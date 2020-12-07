@@ -9,6 +9,7 @@ import tk.mybatis.mapper.annotation.KeySql;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.List;
 
 /**
  * @author Jewitrick
@@ -30,6 +31,18 @@ public class CarCtrl {
 
     @Transient
     private CarApply carApply;
+
+    @Transient
+    private String driverName;
+
+    @Transient
+    private String teacherName;
+
+    @Transient
+    private Car car;
+
+    @Transient
+    private List<CarCtrlConsume> carCtrlConsume;
 
     private Long car_id;
     private Long driver_id;

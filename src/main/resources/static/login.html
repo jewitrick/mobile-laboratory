@@ -63,6 +63,12 @@
                         }else if(user.role_id === 2){
                             //判定角色为教育局
                             location.href="eubreau.html"
+                        }else if(user.role_id === 5){
+                            //判定角色为司机
+                            location.href="driver.html"
+                        }else if(user.role_id === 4){
+                            //判定角色为实验员
+                            location.href="teacher.html"
                         }
                     } else {
                         this.$message.error(data.message)
