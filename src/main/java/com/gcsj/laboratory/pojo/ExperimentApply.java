@@ -24,6 +24,11 @@ public class ExperimentApply {
     private Long user_id;       //用户id
     private Long experi_id;     //实验信息id
     private String principal;   //负责人
+    private Long classes_id;    //实验班级id
+
+    @Transient
+    private Classes classes;    //班级
+
     private String phone_number;//联系方式
     private Date experi_date;   //实验日期
     private Long experi_num;    //实验人数

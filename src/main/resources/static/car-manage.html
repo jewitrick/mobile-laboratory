@@ -48,50 +48,6 @@
                         </el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
-                <!--carApply-manage-->
-                <!--<el-submenu index="3">-->
-                <!--&lt;!&ndash;教育局功能&ndash;&gt;-->
-                <!--<template slot="title"><i class="el-icon-folder-opened"></i>学校课程管理</template>-->
-                <!--<el-menu-item-group>-->
-                <!--<el-menu-item index="3-1"><i class="el-icon-document-checked"></i>实验申请列表</el-menu-item>-->
-                <!--<el-menu-item index="3-2"><i class="el-icon-document"></i>用车申请记录</el-menu-item>-->
-                <!--<el-menu-item index="3-3"><i class="el-icon-folder-add"></i>用车申请</el-menu-item>-->
-                <!--</el-menu-item-group>-->
-                <!--</el-submenu>-->
-
-                <!--<el-submenu index="4">-->
-                <!--&lt;!&ndash;学校功能&ndash;&gt;-->
-                <!--<template slot="title"><i class="el-icon-folder-opened"></i>实验管理</template>-->
-                <!--<el-menu-item-group>-->
-                <!--<el-menu-item index="4-1"><i class="el-icon-document-checked"></i>实验申请记录</el-menu-item>-->
-                <!--<el-menu-item index="4-2"><i class="el-icon-folder-add"></i>实验申请</el-menu-item>-->
-                <!--</el-menu-item-group>-->
-
-                <!--</el-submenu>-->
-                <!--<el-submenu index="5">-->
-                <!--&lt;!&ndash;学校功能&ndash;&gt;-->
-                <!--<template slot="title"><i class="el-icon-tickets"></i>课程安排</template>-->
-                <!--<el-menu-item-group>-->
-                <!--<el-menu-item index="5-1"><i class="el-icon-notebook-1"></i>课程表</el-menu-item>-->
-                <!--&lt;!&ndash;<el-menu-item index="2-2">选项2</el-menu-item>&ndash;&gt;-->
-                <!--</el-menu-item-group>-->
-                <!--</el-submenu>-->
-                <!--<el-submenu index="6">-->
-                <!--&lt;!&ndash;司机功能&ndash;&gt;-->
-                <!--<template slot="title"><i class="el-icon-truck"></i>车辆安排</template>-->
-                <!--<el-menu-item-group>-->
-                <!--<el-menu-item index="6-1"><i class="el-icon-notebook-2"></i>车辆调度表</el-menu-item>-->
-                <!--&lt;!&ndash;<el-menu-item index="2-2">选项2</el-menu-item>&ndash;&gt;-->
-                <!--</el-menu-item-group>-->
-                <!--</el-submenu>-->
-                <!--<el-submenu index="7">-->
-                <!--&lt;!&ndash;实验员功能&ndash;&gt;-->
-                <!--<template slot="title"><i class="el-icon-truck"></i>车辆安排</template>-->
-                <!--<el-menu-item-group>-->
-                <!--<el-menu-item index="7-1"><i class="el-icon-notebook-2"></i>车辆调度表</el-menu-item>-->
-                <!--&lt;!&ndash;<el-menu-item index="2-2">选项2</el-menu-item>&ndash;&gt;-->
-                <!--</el-menu-item-group>-->
-                <!--</el-submenu>-->
             </el-menu>
         </el-aside>
 
@@ -324,7 +280,7 @@
             },
             pickerOptions: { //控制时间范围
                 disabledDate(time) {
-                    return time.getTime() > Date.now()
+                    return time.valueOf() > new Date().valueOf()
                 }
             },
             edit_car: {},

@@ -55,9 +55,17 @@
                     </el-option>
                 </el-select>
             </el-form-item>
+            <el-form-item v-show="user.role_id === 6" prop="class_id" label="所在班级">
+                <el-cascader
+                        ref="cascader"
+                        placeholder="选择你所在的学校及班级"
+                        :options="options"
+                        :props="props"
+                        @change="change"
+                        filterable></el-cascader>
+            </el-form-item>
+
             <el-form-item v-show="user.role_id === 3" prop="schoolName" label="学校名称">
-                <!--<el-input prefix-icon="el-icon-phone-school" placeholder="请输入您所在的学校" v-model="user.schoolName" autocomplete="off"-->
-                          <!--clearable></el-input>-->
                 <el-autocomplete
                         class="inline-input"
                         prefix-icon="el-icon-phone-school"
@@ -113,12 +121,17 @@
                 schoolName: "",
                 eduBureau: ""
             },
+            options: [],
+            props: {
+              value: "id",
+              label: "name"
+            },
             roleData: [],
             schoolData: [],
             eduBureau: [],
             pickerOptions: { //控制时间范围
-                disabledDate (time) {
-                    return time.getTime() > Date.now()
+                disabledDate(time) {
+                    return time.valueOf() > new Date().valueOf()
                 }
             },
             registerRule: {
@@ -162,10 +175,8 @@
                 this.$refs[registerForm].validate((valid) => {
                     // 表单校验+密码框校验
                     if(valid && this.checkConfirmPwd()){
-                        var registerUser = {};
                         this.user.birth = lab.formatDate(this.user.birth);
-                        utils.assign(registerUser,this.user);
-                        axios.post("userRegister",registerUser).then(({data}) => {
+                        axios.post("userRegister",this.user).then(({data}) => {
                             if (data.flag){
                                 location.href = "login.html"
                             }else{
@@ -217,11 +228,20 @@
                     return (edu.edu_name.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
                 };
             },
+            getSchoolGradeClassData() {
+                axios.get("school/gradeClass").then(({data}) => {
+                    this.options = data;
+                })
+            },
+            change() {
+                this.user.class_id = this.$refs['cascader'].getCheckedNodes()[0].data.id;
+            }
         },
         created(){
             this.getRoleData();
             this.getAllEduBureau();
             this.getAllSchool();
+            this.getSchoolGradeClassData();
         }
         // watch: {
         //     user: {

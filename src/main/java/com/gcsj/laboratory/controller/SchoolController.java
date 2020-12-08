@@ -1,6 +1,7 @@
 package com.gcsj.laboratory.controller;
 
 import com.gcsj.laboratory.pojo.School;
+import com.gcsj.laboratory.pojo.resp.GradeClassResp;
 import com.gcsj.laboratory.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,5 +17,10 @@ public class SchoolController {
     @GetMapping("/getAllSchool")
     public List<School> selectAllSchool(){
         return schoolService.selectAllSchool();
+    }
+
+    @GetMapping("school/gradeClass")
+    public List<GradeClassResp> selectAllSchoolGradeClass(){
+        return this.schoolService.selectAllSchoolGradeClass();
     }
 }

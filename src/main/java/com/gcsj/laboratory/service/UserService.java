@@ -31,6 +31,9 @@ public class UserService {
     @Autowired
     private EduBureauMapper eduBureauMapper;
 
+    @Autowired
+    private UserClassMapper userClassMapper;
+
     //查询所有用户信息
     public List<User> selectAllUsers() {
         return this.userMapper.findAllUser();
@@ -95,6 +98,10 @@ public class UserService {
             this.userMapper.insert(user);    //司机
         }else if (Objects.equals(4L, user.getRole_id())){
             this.userMapper.insert(user);       //实验员
+        }else if (Objects.equals(6L,user.getRole_id())){
+            this.userMapper.insert(user);
+            UserClass userClass = UserClass.builder().user_id(user.getId()).classes_id(user.getClass_id()).build();
+            this.userClassMapper.insert(userClass);
         }
         return new CommonResponse<>( true, "注册成功！", null );
     }

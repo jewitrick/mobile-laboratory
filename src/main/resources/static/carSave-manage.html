@@ -269,7 +269,7 @@
             },
             pickerOptions: { //控制时间范围
                 disabledDate(time) {
-                    return time.getTime() > Date.now()
+                    return time.valueOf() > new Date().valueOf()
                 }
             },
             edit_carSave: {

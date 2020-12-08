@@ -21,7 +21,9 @@ public interface ExperimentApplyMapper extends Mapper<ExperimentApply> {
             @Result(column = "user_id", property = "school_address",
                     one = @One(select = "com.gcsj.laboratory.mapper.SchoolMapper.findSchoolAddressByUserId", fetchType = FetchType.EAGER)),
             @Result(column = "id", property = "eduStatus",
-                    one = @One(select = "com.gcsj.laboratory.mapper.CarApplyMapper.findEduStatusByApplyId", fetchType = FetchType.EAGER))
+                    one = @One(select = "com.gcsj.laboratory.mapper.CarApplyMapper.findEduStatusByApplyId", fetchType = FetchType.EAGER)),
+            @Result(column = "classes_id", property = "classes",
+                    one = @One(select = "com.gcsj.laboratory.mapper.ClassesMapper.findClassById", fetchType = FetchType.EAGER))
     })
     @Select("select * from experi_apply")
     List<ExperimentApply> findAll();

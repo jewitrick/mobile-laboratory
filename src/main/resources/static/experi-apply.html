@@ -17,26 +17,33 @@
 <div id="app">
     <el-container style="height: 750px; border: 1px solid #eee">
         <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-menu :default-openeds="['1', '3']"
-                     default-active="1-2">
+            <el-menu :default-openeds="['1', '2']"
+                     default-active="2-2">
                 <el-submenu index="1">
+                    <!--学校功能-->
+                    <template slot="title"><i class="el-icon-tickets"></i>班级管理</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="1-1" @click="location.href='school-grade.html' " ><i class="el-icon-notebook-2"></i>年级列表</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-submenu index="2">
                     <!--学校功能-->
                     <template slot="title"><i class="el-icon-folder-opened"></i>实验管理</template>
                     <el-menu-item-group>
-                        <el-menu-item index="1-1" @click="location.href='school.html' "><i
+                        <el-menu-item index="2-1" @click="location.href='school.html' "><i
                                 class="el-icon-document-checked"></i>实验申请记录
                         </el-menu-item>
-                        <el-menu-item index="1-2" @click="location.href='experi-apply.html' "><i
+                        <el-menu-item index="2-2" @click="location.href='experi-apply.html' "><i
                                 class="el-icon-folder-add"></i>实验申请
                         </el-menu-item>
                     </el-menu-item-group>
 
                 </el-submenu>
-                <el-submenu index="2">
+                <el-submenu index="3">
                     <!--学校功能-->
                     <template slot="title"><i class="el-icon-tickets"></i>课程安排</template>
                     <el-menu-item-group>
-                        <el-menu-item index="2-1"><i class="el-icon-notebook-1"></i>课程表</el-menu-item>
+                        <el-menu-item index="3-1"><i class="el-icon-notebook-1"></i>课程表</el-menu-item>
                         <!--<el-menu-item index="2-2">选项2</el-menu-item>-->
                     </el-menu-item-group>
                 </el-submenu>
@@ -69,8 +76,8 @@
 
                     </div>
                     <div id="charts_one" style="width:100%;min-height:300px">
-                        <el-form :model="experiment" :ruidles="registerRule" ref="registerForm" status-icon="true">
-                            <el-form-item prop="experi_" label="实验名称">
+                        <el-form :model="experiment" :rules="rules" ref="registerForm" status-icon="true">
+                            <el-form-item prop="experi_id" label="实验名称">
                                 <el-select size="medium" v-model="experiment.experi_id" placeholder="请选择实验">
                                     <el-option
                                             v-for="(experiment, index) in experiment_data"
@@ -151,10 +158,10 @@
             experiment_data: [],
             pickerOptions: { //控制时间范围
                 disabledDate(time) {
-                    return time.getTime() < Date.now()
+                    return time.valueOf() < new Date().valueOf()
                 }
             },
-            registerRule: {
+            rules: {
                 experi_id: [{required: true, message: '请选择您需要申请的实验', trigger: 'change'}],
                 principal: [
                     {required: true, message: '请输入负责人名称', trigger: 'blur'},
@@ -188,7 +195,7 @@
             },
             insertExperimentApply() {
                 this.experiment.experi_date = lab.formatDate(this.experiment.experi_date);
-                axios.post("experimentApply/" + this.user.id, this.experiment).then(({data}) => {
+                axios.post("experimentApply/" + this.user.id+"/"+lab.getUrlParam("classId"), this.experiment).then(({data}) => {
                     if (data.flag) {
                         this.$message.success(data.message);
                         location.href = "school.html";

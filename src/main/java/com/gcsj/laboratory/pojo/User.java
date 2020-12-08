@@ -28,4 +28,6 @@ public class User {
     private String schoolName;
     @Transient
     private String eduBureau;
+    @Transient
+    private Long class_id;
 }

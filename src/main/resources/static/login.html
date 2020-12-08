@@ -69,6 +69,9 @@
                         }else if(user.role_id === 4){
                             //判定角色为实验员
                             location.href="teacher.html"
+                        }else if (user.role_id === 6){
+                            //判定角色为学生
+                            location.href="student.html"
                         }
                     } else {
                         this.$message.error(data.message)

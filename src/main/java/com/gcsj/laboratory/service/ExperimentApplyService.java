@@ -42,13 +42,14 @@ public class ExperimentApplyService {
     }
 
     @Transactional
-    public CommonResponse<ExperimentApply> insert(long id, ExperimentApply experimentApply) {
+    public CommonResponse<ExperimentApply> insert(long userId, long classId, ExperimentApply experimentApply) {
 
-        if (!checkIfRepeated(id, experimentApply.getExperi_id())) {
+        if (isRepeated(classId, experimentApply.getExperi_id())) {
             return new CommonResponse<>(false, "申请失败！不能重复申请该实验！", null);
         }
 
-        experimentApply.setUser_id(id);
+        experimentApply.setUser_id(userId);
+        experimentApply.setClasses_id(classId);
         experimentApply.setState(0);
         experimentApply.setResult("请等待教育局审核");
         int i = this.experimentApplyMapper.insert(experimentApply);
@@ -61,32 +62,25 @@ public class ExperimentApplyService {
     /**
      * 判断是否重复申请实验
      *
-     * @param id       申请实验者id
-     * @param experiId 被申请的实验id
-     * @return true 没有重复申请，false 重复申请
+     * @param newClassId 新申请实验的班级id
+     * @param experiId   被申请的实验id
+     * @return true 重复申请，false 没有重复申请
      */
-    private boolean checkIfRepeated(long id, long experiId) {
+    private boolean isRepeated(long newClassId, long experiId) {
 
         List<ExperimentApply> experimentApplyList = this.experimentApplyMapper.select(
                 ExperimentApply.builder().experi_id(experiId).build());
 
-        boolean flag = true;
+        boolean flag = false;
 
         for (ExperimentApply foundExperimentApply : experimentApplyList) {
 
-            Long userId = foundExperimentApply.getUser_id();
+            // 该条已有的实验申请记录对应的班级id
+            Long foundClassId = foundExperimentApply.getClasses_id();
 
-            // 该条已有的实验申请记录对应的学校id
-            Long foundSchoolId = this.userSchoolMapper.selectOne(UserSchool.builder()
-                    .user_id(userId).build()).getSchool_id();
-
-            // 新申请者的学校id
-            Long newSchoolId = this.userSchoolMapper.selectOne(UserSchool.builder()
-                    .user_id(id).build()).getSchool_id();
-
-            if ((Objects.equals(id, userId) || Objects.equals(foundSchoolId, newSchoolId))
+            if (Objects.equals(foundClassId, newClassId)
                     && !Objects.equals(foundExperimentApply.getState(), 2)) {
-                flag = false;
+                flag = true;
             }
 
         }

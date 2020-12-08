@@ -37,14 +37,18 @@ public class ExperimentApplyController {
         return this.experimentApplyService.findPageByUserId(id, currentPage, pageSize, state);
     }
 
+    //根据id找到实验申请信息
     @GetMapping("/getById/{id}")
     ExperimentApply findExperimentById(@PathVariable Long id){
         return this.experimentApplyService.findExperimentById(id);
     }
 
-    @PostMapping("{id}")
-    CommonResponse<ExperimentApply> insert(@PathVariable long id, @RequestBody ExperimentApply experimentApply) {
-        return this.experimentApplyService.insert(id, experimentApply);
+    //学校申请实验
+    @PostMapping("{userId}/{classId}")
+    CommonResponse<ExperimentApply> insert(@PathVariable("userId") long userId,
+                                           @PathVariable("classId") long classId,
+                                           @RequestBody ExperimentApply experimentApply) {
+        return this.experimentApplyService.insert(userId,classId, experimentApply);
     }
 
     //教育局通过实验审核

@@ -38,9 +38,6 @@
                         <el-menu-item index="2-1" @click="location.href='carApplyRecord.html' "><i
                                 class="el-icon-document"></i>用车申请记录
                         </el-menu-item>
-                        <!--<el-menu-item index="2-2" @click="location.href='car-apply.html' "><i-->
-                                <!--class="el-icon-folder-add"></i>用车申请-->
-                        <!--</el-menu-item>-->
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>
@@ -126,9 +123,15 @@
                                                           autocomplete="off" style=" width: 222px"></el-input>
                                             </el-form-item>
                                             <el-form-item prop="schoolName" label="学校名称">
-                                                <el-input prefix-icon="el-icon-user"
+                                                <el-input prefix-icon="el-icon-school"
                                                           :disabled="true"
                                                           v-model="experiment_detail.schoolName"
+                                                          autocomplete="off" style=" width: 222px"></el-input>
+                                            </el-form-item>
+                                            <el-form-item prop="gradeClass" label="班&emsp;&emsp;级">
+                                                <el-input prefix-icon="el-icon-price-tag"
+                                                          :disabled="true"
+                                                          v-model="experiment_detail.gradeClass"
                                                           autocomplete="off" style=" width: 222px"></el-input>
                                             </el-form-item>
                                             <el-form-item prop="principal" label="负&ensp;责&ensp;人">
@@ -335,6 +338,7 @@
                 this.dialogFormVisible = true;
                 axios.get("experimentApply/getById/" + id).then(({data}) => {
                     this.experiment_detail = data;
+                    this.experiment_detail.gradeClass=this.experiment_detail.classes.grade.name+this.experiment_detail.classes.name
                 })
             },
             // 查询所有用车申请记录
