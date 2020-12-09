@@ -21,7 +21,7 @@ public interface GradeMapper extends Mapper<Grade> {
 
     @Results(id = "gradeMap",value = {
             @Result(column = "school_id",property = "schoolName",
-            one = @One(select="com.gcsj.laboratory.mapper.SchoolMapper.findSchoolNameByUserId",fetchType = FetchType.EAGER))
+            one = @One(select="com.gcsj.laboratory.mapper.SchoolMapper.findSchoolNameBySchoolId",fetchType = FetchType.EAGER))
     })
     @Select("select * from grade where school_id = #{school_id}")
     List<Grade> selectGradeBySchool(Long school_id);

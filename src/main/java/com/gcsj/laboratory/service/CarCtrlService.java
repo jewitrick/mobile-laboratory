@@ -1,9 +1,7 @@
 package com.gcsj.laboratory.service;
 
-import com.gcsj.laboratory.mapper.CarCtrlConsumeMapper;
-import com.gcsj.laboratory.mapper.CarCtrlMapper;
-import com.gcsj.laboratory.mapper.ConsumeMapper;
-import com.gcsj.laboratory.mapper.UserMapper;
+import com.gcsj.laboratory.mapper.*;
+import com.gcsj.laboratory.pojo.CarApply;
 import com.gcsj.laboratory.pojo.CarCtrl;
 import com.gcsj.laboratory.pojo.CarCtrlConsume;
 import com.gcsj.laboratory.pojo.User;
@@ -41,6 +39,9 @@ public class CarCtrlService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private CarApplyMapper carApplyMapper;
 
     @Transactional
     public CommonResponse<CarCtrlInfo> uploadCarCtrl(Long id, CarCtrlInfo carCtrlInfo) {
@@ -94,9 +95,12 @@ public class CarCtrlService {
 
     public CommonResponse<CarCtrl> updateCtrl_status(long id, int ctrl_status) {
         CarCtrl carCtrl = this.carCtrlMapper.selectByPrimaryKey(id);
+        CarApply carApply = this.carApplyMapper.selectOne(CarApply.builder().id(carCtrl.getCar_apply_id()).build());
         carCtrl.setCtrl_status(ctrl_status);
+        carApply.setEdu_result("该实验已结束！");
+        int j = this.carApplyMapper.updateByPrimaryKey(carApply);
         int i = this.carCtrlMapper.updateByPrimaryKey(carCtrl);
-        if (i==1){
+        if (i==1 && j==1){
             return new CommonResponse<>(true,"您已按时跟车完成该实验",null);
         }
 

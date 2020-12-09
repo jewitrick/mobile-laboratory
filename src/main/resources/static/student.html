@@ -63,14 +63,12 @@
                                 border
                                 style="width: 100%">
                             <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
-                            <el-table-column property="principal" label="课程名称" align="center"></el-table-column>
+                            <el-table-column property="experiment.experi_name" label="课程名称" align="center"></el-table-column>
                             <el-table-column property="experi_date" label="上课日期" align="center"></el-table-column>
                             <el-table-column label="课程详情" align="center">
                                 <template slot-scope="scope">
-                                    <el-tooltip class="item" effect="dark" :content="scope.row.result" placement="right">
-                                        <el-tag :type="scope.row.state === 0 ? '' : (scope.row.state === 1 ? 'success' : 'danger')">
-                                            {{scope.row.state === 0 ? '未审核' : (scope.row.state === 1 ? '已通过' : '未通过')}}
-                                        </el-tag>
+                                    <el-tooltip class="item" effect="dark" content="点击看看" placement="right">
+                                        <el-button type="primary" @click="checkDetail(scope.row.id)" size="mini" plain>查看详情</el-button>
                                     </el-tooltip>
                                 </template>
                             </el-table-column>
@@ -104,7 +102,12 @@
         data: {
             tableData: [],
             user: {},
-            experiment_data: [],
+            experiment_data: [
+                {
+                    experiment:{}
+                }
+            ],
+            experiment_detail: {},
             page_data: {
                 page_size: 10,
                 current_page: 1,
@@ -126,7 +129,17 @@
 
             },
             getPageExperimentData() {
-
+                axios.get("userClass/"+this.user.id+"/"+ this.page_data.current_page + "/" + this.page_data.page_size).then(({data}) => {
+                    this.experiment_data=data.data;
+                    this.experiment_data.forEach(data => {
+                        data.experi_date = data.experi_date.substring(0, 10);
+                    });
+                    this.page_data.page_total = data.total;
+                })
+            },
+            checkDetail(id){
+                //experi_apply 的id
+                location.href="experiment-detail.html?id=" + id
             },
             page_size_change(page_size) {
                 this.page_data.page_size = page_size;

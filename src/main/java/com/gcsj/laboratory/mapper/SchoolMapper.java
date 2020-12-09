@@ -12,6 +12,10 @@ public interface SchoolMapper extends Mapper<School> {
             "(select school_id from user_school where user_id=#{userId})")
     String findSchoolNameByUserId(Long userId);
 
-    @Select("select school_address from school where id =#{userId}")
+    @Select("select school_address from school where id =" +
+            "(select school_id from user_school where user_id=#{userId})")
     String findSchoolAddressByUserId(Long userId);
+
+    @Select("select school_name from school where id = #{id}")
+    String findSchoolNameBySchoolId(long id);
 }

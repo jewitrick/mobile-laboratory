@@ -33,6 +33,7 @@ public class ClassesService {
     @Autowired
     private UserSchoolMapper userSchoolMapper;
 
+    //查询所有的班级
     public QueryResponse<Classes> getClassPageData(long id, int currentPage, int pageSize) {
         List<Classes> classesList= this.classesMapper.selectAllByGrade(id);
         PageHelper.startPage(currentPage, pageSize);

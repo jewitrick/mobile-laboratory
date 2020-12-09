@@ -39,14 +39,14 @@
                     </el-menu-item-group>
 
                 </el-submenu>
-                <el-submenu index="3">
-                    <!--学校功能-->
-                    <template slot="title"><i class="el-icon-tickets"></i>课程安排</template>
-                    <el-menu-item-group>
-                        <el-menu-item index="3-1"><i class="el-icon-notebook-1"></i>课程表</el-menu-item>
-                        <!--<el-menu-item index="2-2">选项2</el-menu-item>-->
-                    </el-menu-item-group>
-                </el-submenu>
+                <!--<el-submenu index="3">-->
+                    <!--&lt;!&ndash;学校功能&ndash;&gt;-->
+                    <!--<template slot="title"><i class="el-icon-tickets"></i>课程安排</template>-->
+                    <!--<el-menu-item-group>-->
+                        <!--<el-menu-item index="3-1"><i class="el-icon-notebook-1"></i>课程表</el-menu-item>-->
+                        <!--&lt;!&ndash;<el-menu-item index="2-2">选项2</el-menu-item>&ndash;&gt;-->
+                    <!--</el-menu-item-group>-->
+                <!--</el-submenu>-->
             </el-menu>
         </el-aside>
 
@@ -165,7 +165,7 @@
                 experi_id: [{required: true, message: '请选择您需要申请的实验', trigger: 'change'}],
                 principal: [
                     {required: true, message: '请输入负责人名称', trigger: 'blur'},
-                    {min: 2, max: 5, message: '长度在 4 到 5 个字符', trigger: 'blur'}
+                    {min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur'}
                 ],
                 experi_num: [{required: true, message: '请输入实验人数', trigger: 'blur'}],
                 phone_number: [{required: true, message: '请输入联系方式', trigger: 'blur'},

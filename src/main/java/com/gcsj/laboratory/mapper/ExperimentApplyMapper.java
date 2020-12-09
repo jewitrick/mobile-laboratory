@@ -60,4 +60,7 @@ public interface ExperimentApplyMapper extends Mapper<ExperimentApply> {
     @ResultMap("experimentApplyMapper")
     @Select("select * from experi_apply where id = #{id} order by experi_date")
     ExperimentApply findExperimentById(@Param("id") Long id);
+
+    @Select("select id from experi_apply where user_id = #{id} and state=1")
+    List<Long> findExperimentApplyIdByUserId(long id);
 }

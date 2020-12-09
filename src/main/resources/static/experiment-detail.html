@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>课程详情</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.13.2/theme-chalk/index.css">
+</head>
+<body>
+<div id="app">
+    <el-dialog visible="true" width="42%" center @close="history.back(-1)" top="8vh">
+        <div slot="title" class="dialog-title">
+            <h2>课程详情页面</h2>
+        </div>
+        <span><h3>实验信息</h3></span>
+        <hr>
+        <el-form style="margin-top: 10px;" inline="true" :model="ExperimentDetail_data" status-icon="true">
+            <el-form-item label="实验名称">
+                <el-input prefix-icon="el-icon-s-order"
+                          disabled
+                          style="width: 180px;"
+                          v-model="ExperimentDetail_data.carApply.experimentApply.experiment.experi_name"
+                          autocomplete="off"
+                          clearable></el-input>
+            </el-form-item>
+            <el-form-item label="实验人数">
+                <el-input prefix-icon="el-icon-user"
+                          disabled
+                          style="width: 180px;"
+                          v-model="ExperimentDetail_data.carApply.experimentApply.experi_num"
+                          autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="实验日期">
+                <el-input prefix-icon="el-icon-date"
+                          style="width: 180px;"
+                          disabled
+                          v-model="ExperimentDetail_data.carApply.experimentApply.experi_date"
+                          autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item prop="edu_principal" label="实验老师">
+                <el-input prefix-icon="el-icon-user"
+                          disabled
+                          style="width: 180px;"
+                          v-model="ExperimentDetail_data.teacherName"
+                          autocomplete="off"
+                          clearable></el-input>
+            </el-form-item>
+        </el-form>
+        <span><h3>耗材列表</h3></span>
+        <hr>
+        <el-form :model="ExperimentDetail_data">
+            <el-form-item>
+                <el-input :disabled="true"
+                          type="textarea"
+                          style="width: 500px"
+                          :rows="ExperimentDetail_data.carCtrlConsume.length + 1"
+                          v-model="consumeInfo"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary">签到</el-button>
+        </div>
+    </el-dialog>
+</div>
+</body>
+<script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.bootcss.com/element-ui/2.13.2/index.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+<script src="js/common.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            ExperimentDetail_data: {
+                carApply: {
+                    experimentApply: {
+                        classes: {},
+                        experiment: {}
+                    }
+                },
+                car: {},
+                carCtrlConsume: [
+                    {
+                        consume: {}
+                    }
+                ]
+            },
+        },
+        methods: {
+            getExperimentDetail(){
+                axios.get("userClass/selectDetailById/"+lab.getUrlParam("id")).then(({data}) => {
+                    this.ExperimentDetail_data=data;
+                });
+            },
+        },
+        created(){
+            this.getExperimentDetail()
+        },
+        computed: {
+            consumeInfo() {
+                let consumeList = this.ExperimentDetail_data.carCtrlConsume;
+                let returnVal = '';
+                for (let i = 0; i < consumeList.length; i++) {
+                    returnVal += i + 1 + "." + consumeList[i].consume.name + ": " + consumeList[i].cost_count + consumeList[i].consume.unit + "\n";
+                }
+                return returnVal;
+            }
+        }
+    })
+</script>
+</html>
