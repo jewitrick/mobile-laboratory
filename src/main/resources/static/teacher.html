@@ -20,13 +20,21 @@
 <div id="app">
     <el-container style="height: 600px; border: 1px solid #eee">
         <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-menu :default-openeds="['1']"
+            <el-menu :default-openeds="['1','2']"
                      default-active="1-1">
                 <el-submenu index="1">
                     <!--实验员功能-->
                     <template slot="title"><i class="el-icon-truck"></i>车辆安排</template>
                     <el-menu-item-group>
                         <el-menu-item index="1-1" @click="location.href='teacher.html'"><i class="el-icon-notebook-2"></i>车辆调度表</el-menu-item>
+                        <!--<el-menu-item index="2-2">选项2</el-menu-item>-->
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-submenu index="2">
+                    <!--实验员功能-->
+                    <template slot="title"><i class="el-icon-search"></i>签到查询</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="2-1" @click="location.href='teacher-querysign.html'"><i class="el-icon-notebook-2"></i>实验签到情况表</el-menu-item>
                         <!--<el-menu-item index="2-2">选项2</el-menu-item>-->
                     </el-menu-item-group>
                 </el-submenu>
@@ -42,7 +50,7 @@
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item>
                             <i class="el-icon-user"></i>
-                            <el-link href="my-info.html">个人中心</el-link>
+                            <el-link href="#">个人中心</el-link>
                         </el-dropdown-item>
                         <el-dropdown-item divided>
                             <i class="el-icon-right"></i>
@@ -301,7 +309,9 @@
                 })
             },
             logout() {
-
+                axios.post("user/logout").then(()=> {
+                    location.href="login.html";
+                })
             },
             getPageCarCtrlData() {
                 axios.get("carCtrl/getCarCtrlByUserId/" + this.user.id + "/" + this.page_data.current_page + "/" + this.page_data.page_size ).then(({data}) => {

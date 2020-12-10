@@ -82,5 +82,11 @@ public class UserController {
         return new CommonResponse<>( false, "用户名或密码错误", null );
     }
 
+    //用户退出登录
+    @PostMapping("/user/logout")
+    public void logout(HttpSession session){
+        session.removeAttribute("user");
+    }
+
 
 }

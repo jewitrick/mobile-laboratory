@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>签到查询</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.13.2/theme-chalk/index.css">
+    <style>
+        .el-header {
+            background-color: #B3C0D1;
+            color: #333;
+            line-height: 60px;
+        }
+
+        .el-aside {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-container style="height: 600px; border: 1px solid #eee">
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+            <el-menu :default-openeds="['1', '2']"
+                     default-active="2-1">
+                <el-submenu index="1">
+                    <!--实验员功能-->
+                    <template slot="title"><i class="el-icon-truck"></i>车辆安排</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="1-1" @click="location.href='teacher.html'"><i class="el-icon-notebook-2"></i>车辆调度表</el-menu-item>
+                        <!--<el-menu-item index="2-2">选项2</el-menu-item>-->
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-submenu index="2">
+                    <!--实验员功能-->
+                    <template slot="title"><i class="el-icon-search"></i>签到查询</template>
+                    <el-menu-item-group>
+                        <el-menu-item index="2-1" @click="location.href='teacher-querysign.html'"><i class="el-icon-notebook-2"></i>实验签到情况表</el-menu-item>
+                        <!--<el-menu-item index="2-2">选项2</el-menu-item>-->
+                    </el-menu-item-group>
+                </el-submenu>
+            </el-menu>
+        </el-aside>
+        <el-container>
+            <el-header style="text-align: right; font-size: 12px">
+                <el-dropdown style="padding-top: 10px;">
+                      <span class="el-dropdown-link">
+                        <el-avatar :src="user.avatar"></el-avatar>
+                      </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>
+                            <i class="el-icon-user"></i>
+                            <el-link href="#">个人中心</el-link>
+                        </el-dropdown-item>
+                        <el-dropdown-item divided>
+                            <i class="el-icon-right"></i>
+                            <el-link @click="logout">退出</el-link>
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </el-header>
+
+<!--            签到信息对话框-->
+            <el-dialog title="签到信息详情" :visible.sync="signinFormVisible">
+                <el-table
+                    :data='signinData' border style="width: 100%" height="400">
+                    <el-table-column prop="studentName" label="学生姓名" min-width="60"></el-table-column>
+                    <el-table-column prop="date" label="签到时间" min-width="60"></el-table-column>
+                </el-table>
+                <div slot="footer" class="dialog-footer" align="center">
+                    <el-button type="primary" @click="signinFormVisible = false">确 定</el-button>
+                </div>
+            </el-dialog>
+
+            <el-main>
+                <el-card shadow="never" class="card">
+                    <div slot="header" class="clearfix">
+                        <span>实验情况</span>
+                    </div>
+                    <div id="charts_one" style="width:100%;min-height:300px">
+                        <el-table
+                                :data="tableData"
+                                max-height="350"
+                                border
+                                style="width: 100%">
+                            <el-table-column type="index"
+                                             label="序号"
+                                             width="50"
+                                             align="center">
+                            </el-table-column>
+                            <el-table-column label="实验名称"
+                                             align="center"
+                                             property="carApply.experimentApply.experiment.experi_name">
+                            </el-table-column>
+                            <el-table-column property="carApply.experimentApply.experi_date"
+                                             label="实验日期"
+                                             align="center">
+                            </el-table-column>
+                            <el-table-column property="carApply.experimentApply.schoolName"
+                                             label="学校"
+                                             align="center">
+                            </el-table-column>
+                            <el-table-column property="carApply.experimentApply.classes.grade.name"
+                                             label="年级"
+                                             align="center">
+                            </el-table-column>
+                            <el-table-column property="carApply.experimentApply.classes.name"
+                                             label="班级"
+                                             align="center">
+                            </el-table-column>
+                            <el-table-column label="操作" width="120" align="center">
+                                <template slot-scope="scope">
+                                    <el-tooltip class="item" effect="dark" content="查看签到详情" placement="left">
+                                        <el-button type="success" size="mini" @click="checkSigninDetail(scope.row)"
+                                                   icon="el-icon-finished" circle></el-button>
+                                    </el-tooltip>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <el-pagination
+                                @size-change="page_size_change"
+                                @current-change="current_change"
+                                :current-page="page_data.current_page"
+                                :page-sizes="[5, 10, 15, 50]"
+                                :page-size="page_data.page_size"
+                                layout="total, sizes, prev, pager, next, jumper"
+                                :total="page_data.page_total"
+                                style="margin-top:10px"
+                        ></el-pagination>
+                    </div>
+                </el-card>
+            </el-main>
+        </el-container>
+    </el-container>
+</div>
+</body>
+
+<script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.bootcss.com/element-ui/2.13.2/index.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+<script src="js/common.js"></script>
+
+<script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                user: {},
+                tableData: [],
+                //对话框
+                signinFormVisible: false,
+                //签到数据
+                signinData: [],
+                page_data: {
+                    page_size: 10,
+                    current_page: 1,
+                    page_total: 200,
+                    search: {
+                        state: -1
+                    }
+                },
+            }
+        },
+        methods: {
+            //签到详情
+            checkSigninDetail(row){
+                //获得实验ID
+                let experid = row.carApply.experimentApply.id;
+                //查询签到表学生信息（封装成函数）
+                this.getSignInfo(experid);
+                this.signinFormVisible = true;
+            },
+            //通过实验id获取学生签到信息
+            getSignInfo(experid){
+                let data = {id: experid};
+                axios.post("/getsigninfo",data).then(({data})=>{
+                    data.forEach(data=>{
+                        data.date = data.date.substring(0, 10);
+                    });
+                    this.signinData = data;
+
+                });
+            },
+            //验证
+            verify() {
+                axios.get("user/verify").then(({data}) => {
+                    if (data) {
+                        this.user = data;
+                        this.getPageCarCtrlData();
+                    } else {
+                        location.href = "login.html"
+                    }
+                })
+            },
+            //登出
+            logout() {
+                axios.post("user/logout").then(()=> {
+                    location.href="login.html";
+                })
+            },
+            page_size_change(page_size) {
+                this.page_data.page_size = page_size;
+            },
+            current_change(click_page) {
+                this.page_data.current_page = click_page;
+            },
+            getPageCarCtrlData() {
+                axios.get("carCtrl/getCarCtrlByUserId/" + this.user.id + "/" + this.page_data.current_page + "/" + this.page_data.page_size ).then(({data}) => {
+                    //封装数据
+                    this.tableData = data.data;
+                    this.tableData.forEach(data => {
+                        data.carApply.experimentApply.experi_date
+                            = data.carApply.experimentApply.experi_date.substring(0, 10);
+                    })
+                    this.page_data.page_total = data.total;
+                })
+            },
+        },
+        watch: {
+            page_data: {
+                deep: true,
+                handler() {
+                    this.getPageCarCtrlData();
+                }
+            }
+        },
+        created() {
+            this.verify();
+        },
+    });
+</script>
+</html>

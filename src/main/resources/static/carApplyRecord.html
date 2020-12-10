@@ -48,7 +48,7 @@
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item>
                             <i class="el-icon-user"></i>
-                            <el-link href="my-info.html">个人中心</el-link>
+                            <el-link href="#">个人中心</el-link>
                         </el-dropdown-item>
                         <el-dropdown-item divided>
                             <i class="el-icon-right"></i>
@@ -235,7 +235,9 @@
                 })
             },
             logout() {
-
+                axios.post("user/logout").then(()=> {
+                    location.href="login.html";
+                })
             },
             updateState(){
                 axios.post("experimentApply/"+this.experiment_detail.id+ "/state/" + 1).then(({data}) => {

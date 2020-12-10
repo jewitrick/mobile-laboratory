@@ -57,7 +57,8 @@
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button type="primary">签到</el-button>
+            <el-button type="primary" v-if="isSign">已签到</el-button>
+            <el-button type="primary" @click="signIn()" v-else>签到</el-button>
         </div>
     </el-dialog>
 </div>
@@ -85,16 +86,38 @@
                     }
                 ]
             },
+            isSign: false
         },
         methods: {
             getExperimentDetail(){
                 axios.get("userClass/selectDetailById/"+lab.getUrlParam("id")).then(({data}) => {
+                    console.log(data)
                     this.ExperimentDetail_data=data;
                 });
             },
+            //签到函数
+            signIn(){
+                //封装数据
+                let data = {id:lab.getUrlParam("id")};
+                axios.post("/signin",data).then(({data})=>{
+                    if(data){
+                        this.isSign = true;
+                    }
+                });
+            },
+            //获取签到信息
+            getisSign(){
+                let data = {id:lab.getUrlParam("id")};
+                axios.post("/issignin",data).then(({data})=>{
+                    if (data){
+                        this.isSign = true;
+                    }
+                })
+            }
         },
         created(){
-            this.getExperimentDetail()
+            this.getExperimentDetail();
+            this.getisSign();
         },
         computed: {
             consumeInfo() {
