@@ -7,6 +7,7 @@ import com.gcsj.laboratory.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,9 +24,9 @@ public class CarController {
     @Autowired
     private CarService carService;
 
-    @GetMapping("getAllCars")
-    public List<Car> getAllCars(){
-        return this.carService.getAllCars();
+    @GetMapping("getAllCars/experi_date/{experi_date}")
+    public List<Car> getAllCars(@PathVariable String experi_date){
+        return this.carService.getAllCars(experi_date);
     }
 
     @PostMapping("addCar")

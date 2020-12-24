@@ -80,6 +80,7 @@
                                 :data="experiment_data"
                                 max-height="350"
                                 border
+                                :default-sort = "{prop: 'experi_date', order: 'descending'}"
                                 style="width: 100%">
                             <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
                             <el-table-column label="实验名称" align="center">
@@ -90,7 +91,7 @@
                             <el-table-column property="schoolName" label="学校名称" align="center"></el-table-column>
                             <el-table-column property="principal" label="负责人" align="center"></el-table-column>
                             <el-table-column property="phone_number" label="联系方式" align="center"></el-table-column>
-                            <el-table-column property="experi_date" label="实验日期" align="center"></el-table-column>
+                            <el-table-column property="experi_date" label="实验日期" align="center" sortable></el-table-column>
                             <el-table-column label="实验人数" property="experi_num" align="center"></el-table-column>
                             <el-table-column label="审核状态" align="center">
                                 <template slot-scope="scope">

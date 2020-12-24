@@ -46,7 +46,7 @@ public class CarApplyService {
 
     //查询所有用车申请记录
     public List<CarApply> selectAllRecord() {
-        return this.carApplyMapper.findAll();
+        return this.carApplyMapper.findAll(null);
     }
 
 
@@ -59,7 +59,7 @@ public class CarApplyService {
 
         if (Objects.equals(user.getRole_id(), 1L)) { // 调度中心
             PageHelper.startPage(currentPage, pageSize);
-            List<CarApply> carApplies = this.carApplyMapper.findAll();
+            List<CarApply> carApplies = this.carApplyMapper.findAll(status);
             PageInfo<CarApply> pageInfo = new PageInfo<>(carApplies);
             return new QueryResponse<>(true, "查询成功", carApplies, pageInfo.getTotal());
 

@@ -1,14 +1,21 @@
 spring:
   datasource:
+    hikari:
+      max-lifetime: 30000
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/laboratory?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: 123456
+    url: ENC(7MpopnPaNXGE9VZQgO6g5fc5VVzTbWlCg7ZV5uRI4fHv1joXG1P2KPQfiM7iQ9MiQmNKcGGp73nbUHGPoIaTqvXezkklckM9tLlExOhS1WYX+z+s9xuLDLbTIkMkXoah)
+    username: ENC(aaq+Wjg1D1Z2cQGTwZeidA==)
+    password: ENC(ggQPxMX7xD7eV2gA+GiPTm9Mm9+W6vso)
 logging:
   level:
     root: warn
     com.shijian.lab: info
   file:
-    name: log/laboratory-pro.log
-server:
-  port: 8080
+    name: log/laboratory-dev.log
+mybatis:
+  #实体类别名包路径
+  type-aliases-package: com.gcsj.pojo
+  #映射文件路径
+  #mapper-locations: classpath:mappers/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -34,4 +34,6 @@ public class Car {
     private Date car_date;
     private String car_type;
     private Long car_seat;
+    private String busy_date;
+
 }

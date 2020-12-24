@@ -3,15 +3,15 @@ spring:
     hikari:
       max-lifetime: 30000
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ENC(7MpopnPaNXGE9VZQgO6g5fc5VVzTbWlCg7ZV5uRI4fHv1joXG1P2KPQfiM7iQ9MiQmNKcGGp73nbUHGPoIaTqvXezkklckM9tLlExOhS1WYX+z+s9xuLDLbTIkMkXoah)
-    username: ENC(aaq+Wjg1D1Z2cQGTwZeidA==)
-    password: ENC(ggQPxMX7xD7eV2gA+GiPTm9Mm9+W6vso)
+    url: jdbc:mysql://localhost:3306/laboratory2?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
 logging:
   level:
     root: info
     com.shijian.lab: debug
   file:
-    name: log/laboratory-dev.log
+    name: log/laboratory-pro.log
 mybatis:
   #实体类别名包路径
   type-aliases-package: com.gcsj.pojo

@@ -1,5 +1,6 @@
 package com.gcsj.laboratory.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gcsj.laboratory.mapper.CarMapper;
 import com.gcsj.laboratory.pojo.Car;
 import com.gcsj.laboratory.pojo.resp.CommonResponse;
@@ -9,8 +10,11 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Jewitrick
@@ -28,18 +32,18 @@ public class CarService {
     @Transactional
     public CommonResponse<Car> insertCar(Car car) {
         int i = this.carMapper.insert(car);
-        if (i==1){
-            return new CommonResponse<>(true,"添加车辆信息成功",null);
+        if (i == 1) {
+            return new CommonResponse<>(true, "添加车辆信息成功", null);
         }
-        return new CommonResponse<>(true,"添加车辆信息失败",null);
+        return new CommonResponse<>(true, "添加车辆信息失败", null);
     }
 
     public QueryResponse<Car> selectPageCar(int currentPage, int pageSize) {
 
-        PageHelper.startPage(currentPage,pageSize);
+        PageHelper.startPage(currentPage, pageSize);
         List<Car> cars = this.carMapper.selectAll();
         PageInfo<Car> carPageInfo = new PageInfo<>(cars);
-        return new QueryResponse<>(true,"查询成功",cars,carPageInfo.getTotal());
+        return new QueryResponse<>(true, "查询成功", cars, carPageInfo.getTotal());
     }
 
     public Car selectCarById(long id) {
@@ -47,7 +51,7 @@ public class CarService {
     }
 
     @Transactional
-    public int deleteById(long id){
+    public int deleteById(long id) {
         return this.carMapper.deleteByPrimaryKey(id);
     }
 
@@ -55,12 +59,16 @@ public class CarService {
     public CommonResponse<Car> updateCar(long id, Car updateCar) {
         int i = this.carMapper.updateByPrimaryKey(updateCar);
         if (i == 1) {
-            return new CommonResponse<>(true,"修改车辆信息成功",null);
+            return new CommonResponse<>(true, "修改车辆信息成功", null);
         }
-        return new CommonResponse<>(false,"修改车辆信息失败",null);
+        return new CommonResponse<>(false, "修改车辆信息失败", null);
     }
 
-    public List<Car> getAllCars() {
-        return this.carMapper.selectAll();
+    public List<Car> getAllCars(String experi_date) {
+        return this.carMapper
+                .selectAll()
+                .stream()
+                .filter(car -> ObjectUtils.isEmpty(car.getBusy_date()) || !JSONObject.parseArray(car.getBusy_date()).toJavaList(String.class).contains(experi_date))
+                .collect(Collectors.toList());
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -28,15 +29,15 @@ public class UserController {
     }
 
     //查询所有实验员
-    @GetMapping("getAllTeachers")
-    public List<User> selectAllTeachers(){
-        return userService.selectAllTeachers();
+    @GetMapping("getAllTeachers/experi_date/{experi_date}")
+    public List<User> selectAllTeachers(@PathVariable String experi_date){
+        return userService.selectAllTeachers(experi_date);
     }
 
     //查询所有司机
-    @GetMapping("getAllDrivers")
-    public List<User> selectAllDrivers(){
-        return userService.selectAllDrivers();
+    @GetMapping("getAllDrivers/experi_date/{experi_date}")
+    public List<User> selectAllDrivers(@PathVariable String experi_date){
+        return userService.selectAllDrivers(experi_date);
     }
 
     //分页查询所有信息

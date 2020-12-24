@@ -1,5 +1,6 @@
 package com.gcsj.laboratory.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gcsj.laboratory.mapper.*;
 import com.gcsj.laboratory.pojo.*;
 import com.gcsj.laboratory.pojo.resp.CommonResponse;
@@ -13,6 +14,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -41,74 +43,74 @@ public class UserService {
 
     //根据id查询某个用户信息
     public User selectUserById(Long id) {
-        return this.userMapper.selectByPrimaryKey( id );
+        return this.userMapper.selectByPrimaryKey(id);
     }
 
     //更新用户信息
     @Transactional
     public CommonResponse<User> updateUser(Long id, User user) {
-        int i = this.userMapper.updateByPrimaryKey( user );
+        int i = this.userMapper.updateByPrimaryKey(user);
         if (i == 1) {
-            return new CommonResponse<User>( true, "更新成功", null );
+            return new CommonResponse<User>(true, "更新成功", null);
         }
-        return new CommonResponse<User>( true, "更新失败", null );
+        return new CommonResponse<User>(true, "更新失败", null);
     }
 
     //用户注册
     @Transactional
     public CommonResponse<User> userRegister(User user) {
         // 1. 拿到 role_id，判断用户选择注册的角色
-        if (Objects.equals( 3L, user.getRole_id() )) { // 用户选择的注册角色是学校
+        if (Objects.equals(3L, user.getRole_id())) { // 用户选择的注册角色是学校
             String schoolName = user.getSchoolName();
-            School school = this.schoolMapper.findByName( schoolName );
+            School school = this.schoolMapper.findByName(schoolName);
             // 判断 school 是否为空
-            if (ObjectUtils.isEmpty( school )) { // 如果为空，注册失败
-                return new CommonResponse<>( false, "查询不到您输入的学校，请与管理员联系！", null );
+            if (ObjectUtils.isEmpty(school)) { // 如果为空，注册失败
+                return new CommonResponse<>(false, "查询不到您输入的学校，请与管理员联系！", null);
             }
 
-            this.userMapper.insert( user );
+            this.userMapper.insert(user);
 
             // 关联 user_id 和 school_id （user_school）
             UserSchool userSchool = UserSchool.builder()
-                    .id( null )
-                    .user_id( user.getId() )
-                    .school_id( school.getId() ).build();
-            this.userSchoolMapper.insert( userSchool );
+                    .id(null)
+                    .user_id(user.getId())
+                    .school_id(school.getId()).build();
+            this.userSchoolMapper.insert(userSchool);
 
-        } else if (Objects.equals( 2L, user.getRole_id() )) { // 用户选择的注册角色是教育局
+        } else if (Objects.equals(2L, user.getRole_id())) { // 用户选择的注册角色是教育局
             String eduBureauName = user.getEduBureau();
-            EduBureau edu = this.eduBureauMapper.findByName( eduBureauName );
+            EduBureau edu = this.eduBureauMapper.findByName(eduBureauName);
             // 判断 school 是否为空
-            if (ObjectUtils.isEmpty( edu )) { // 如果为空，注册失败
-                return new CommonResponse<>( false, "查询不到您输入的教育局，请与管理员联系！", null );
+            if (ObjectUtils.isEmpty(edu)) { // 如果为空，注册失败
+                return new CommonResponse<>(false, "查询不到您输入的教育局，请与管理员联系！", null);
             }
 
-            this.userMapper.insert( user );
+            this.userMapper.insert(user);
 
             // 关联 user_id 和 edu_id （user_edu）
             UserEduBureau userEduBureau = UserEduBureau.builder()
-                    .id( null )
-                    .user_id( user.getId() )
-                    .edu_id( edu.getId() ).build();
-            this.userEduBureauMapper.insert( userEduBureau );
+                    .id(null)
+                    .user_id(user.getId())
+                    .edu_id(edu.getId()).build();
+            this.userEduBureauMapper.insert(userEduBureau);
 
-        } else if (Objects.equals( 1L, user.getRole_id() )) {
-            this.userMapper.insert( user );     //调度中心
-        } else if (Objects.equals(5L, user.getRole_id() )){
+        } else if (Objects.equals(1L, user.getRole_id())) {
+            this.userMapper.insert(user);     //调度中心
+        } else if (Objects.equals(5L, user.getRole_id())) {
             this.userMapper.insert(user);    //司机
-        }else if (Objects.equals(4L, user.getRole_id())){
+        } else if (Objects.equals(4L, user.getRole_id())) {
             this.userMapper.insert(user);       //实验员
-        }else if (Objects.equals(6L,user.getRole_id())){
+        } else if (Objects.equals(6L, user.getRole_id())) {
             this.userMapper.insert(user);
             UserClass userClass = UserClass.builder().user_id(user.getId()).classes_id(user.getClass_id()).build();
             this.userClassMapper.insert(userClass);
         }
-        return new CommonResponse<>( true, "注册成功！", null );
+        return new CommonResponse<>(true, "注册成功！", null);
     }
 
     //用户登录，查看用户名，密码是否正确
     public User checkLogin(String username, String password) {
-        User user = userMapper.findUsernameAndPassword( username, password );
+        User user = userMapper.findUsernameAndPassword(username, password);
         return user;
     }
 
@@ -116,23 +118,31 @@ public class UserService {
     //删除用户
     @Transactional
     public int deleteById(Long id) {
-        return this.userMapper.deleteByPrimaryKey( id );
+        return this.userMapper.deleteByPrimaryKey(id);
     }
 
     public QueryResponse<User> selectPageUsers(int currentPage, int pageSize) {
-        PageHelper.startPage( currentPage, pageSize );
+        PageHelper.startPage(currentPage, pageSize);
         List<User> users = this.userMapper.findAllUser();
-        PageInfo<User> pageInfo = new PageInfo<>( users );
-        return new QueryResponse<>( true, "查询成功！", users, pageInfo.getTotal() );
+        PageInfo<User> pageInfo = new PageInfo<>(users);
+        return new QueryResponse<>(true, "查询成功！", users, pageInfo.getTotal());
     }
 
-    public List<User> selectAllTeachers() {
-        long id=4L;
-        return this.userMapper.selectAllTeachers(id);
+    public List<User> selectAllTeachers(String experi_date) {
+        long id = 4L;
+        return this.userMapper
+                .selectAllTeachers(id)
+                .stream()
+                .filter(teacher -> ObjectUtils.isEmpty(teacher.getBusy_date()) || !JSONObject.parseArray(teacher.getBusy_date()).toJavaList(String.class).contains(experi_date))
+                .collect(Collectors.toList());
     }
 
-    public List<User> selectAllDrivers(){
+    public List<User> selectAllDrivers(String experi_date) {
         long id = 5L;
-        return this.userMapper.selectAllDrivers(id);
+        return this.userMapper
+                .selectAllDrivers(id)
+                .stream()
+                .filter(driver -> ObjectUtils.isEmpty(driver.getBusy_date()) || !JSONObject.parseArray(driver.getBusy_date()).toJavaList(String.class).contains(experi_date))
+                .collect(Collectors.toList());
     }
 }

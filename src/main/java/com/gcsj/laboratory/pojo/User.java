@@ -23,6 +23,7 @@ public class User {
     private String realname;    //用户真实姓名
     private String phone;       //联系方式
     private Date birth;         //出生日期
+    private String busy_date;
 
     @Transient
     private String schoolName;

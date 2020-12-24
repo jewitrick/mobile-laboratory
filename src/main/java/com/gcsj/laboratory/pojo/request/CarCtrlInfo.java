@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,5 +29,7 @@ public class CarCtrlInfo {
     private Long driver_id;
 
     private List<CarCtrlConsume> consumeList;
+
+    private Date experi_date;
 
 }

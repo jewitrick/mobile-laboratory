@@ -19,8 +19,16 @@ public interface CarApplyMapper extends Mapper<CarApply> {
             @Result(column = "id", property = "ctrlStatus",
                     one = @One(select = "com.gcsj.laboratory.mapper.CarCtrlMapper.findCtrlStatusByCarApplyId", fetchType = FetchType.EAGER))
     })
-    @Select("select * from car_apply")
-    List<CarApply> findAll();
+    @Select("<script>" +
+            "select * from car_apply " +
+            "<where>" +
+            "<if test='status != null and status != -1'>" +
+            " and edu_status = #{status}" +
+            "</if>" +
+            "</where>" +
+            " order by edu_status" +
+            "</script>")
+    List<CarApply> findAll(Long status);
 
     @Select("select edu_status from car_apply where experiment_apply_id = #{id}")
     Integer findEduStatusByApplyId(Long id);
