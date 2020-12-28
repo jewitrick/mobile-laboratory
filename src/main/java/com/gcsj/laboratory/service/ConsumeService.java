@@ -25,6 +25,7 @@ public class ConsumeService {
     @Autowired
     private ConsumeMapper consumeMapper;
 
+    @Transactional
     public CommonResponse<Consume> insertConsume(Consume consume) {
         int i = this.consumeMapper.insert(consume);
         if (i == 1) {
@@ -33,12 +34,11 @@ public class ConsumeService {
         return new CommonResponse<>(false, "添加耗材信息失败", null);
     }
 
-    public QueryResponse<Consume> selectPageConsume(int currentPage, int pageSize) {
-
+    public QueryResponse<Consume> selectPageConsume(int currentPage, int pageSize, long experiment_type_id) {
         PageHelper.startPage(currentPage, pageSize);
-        List<Consume> consumes = this.consumeMapper.selectAll();
-        PageInfo<Consume> carPageInfo = new PageInfo<>(consumes);
-        return new QueryResponse<>(true, "查询成功", consumes, carPageInfo.getTotal());
+        List<Consume> consumes = this.consumeMapper.selectAllConsume(experiment_type_id);
+        PageInfo<Consume> consumePageInfo = new PageInfo<>(consumes);
+        return new QueryResponse<>(true, "查询成功", consumes, consumePageInfo.getTotal());
     }
 
     public Consume selectConsumeById(long id) {

@@ -36,11 +36,12 @@ public class ConsumeController {
 
     @GetMapping("{currentPage}/{pageSize}")
     public QueryResponse<Consume> selectPageConsume (@PathVariable("currentPage") int currentPage,
-                                                 @PathVariable("pageSize") int pageSize) {
-        return consumeService.selectPageConsume( currentPage, pageSize );
+                                                     @PathVariable("pageSize") int pageSize,
+                                                     @RequestParam(required = false) Long experiment_type_id) {
+        return consumeService.selectPageConsume( currentPage, pageSize, experiment_type_id );
     }
 
-    //根据id获取对应的耗材信息，用于编辑车辆信息
+    //根据id获取对应的耗材信息，用于编辑对应的耗材信息
     @GetMapping("getConsumeById/{id}")
     public Consume selectConsumeById(@PathVariable long id){
         return consumeService.selectConsumeById(id);

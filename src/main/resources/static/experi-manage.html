@@ -126,7 +126,7 @@
                                 @click="addExperiment"
                         >新增</el-button>
                         <!--新增实验信息对话框-->
-                        <el-dialog title="用户信息" :visible.sync="addExperimentVisible">
+                        <el-dialog title="实验信息" :visible.sync="addExperimentVisible">
                             <el-form :model="add_experiment" inline="true">
                                 <el-form-item prop="experimentType" label="实验类型">
                                     <el-select prefix-icon="el-icon-phone-outline" v-model="add_experiment.type_id"
@@ -306,7 +306,7 @@
             getAllExperimentData() {
                 axios.get("experimetnType").then(({data}) => {
                     this.experimentTypes = data;
-                })
+                });
                 axios.get("getPageExperiment/" + this.page_data.current_page + "/" + this.page_data.page_size).then(({data}) => {
                     this.experiment_data = data.data;
                     this.page_data.page_total = data.total;
