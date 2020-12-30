@@ -52,4 +52,7 @@ public interface CarApplyMapper extends Mapper<CarApply> {
 
     @Select("select * from car_apply where id = #{id}")
     CarApply findById(Long id);
+
+    @Select("select experiment_apply_id from car_apply where id = #{carApplyId}")
+    long findExperimentApplyIdByCarApplyId(long carApplyId);
 }

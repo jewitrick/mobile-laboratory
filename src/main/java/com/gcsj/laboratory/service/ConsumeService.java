@@ -1,7 +1,12 @@
 package com.gcsj.laboratory.service;
 
+import com.gcsj.laboratory.mapper.CarApplyMapper;
 import com.gcsj.laboratory.mapper.ConsumeMapper;
+import com.gcsj.laboratory.mapper.ExperimentApplyMapper;
+import com.gcsj.laboratory.mapper.ExperimentMapper;
+import com.gcsj.laboratory.pojo.CarApply;
 import com.gcsj.laboratory.pojo.Consume;
+import com.gcsj.laboratory.pojo.ExperimentApply;
 import com.gcsj.laboratory.pojo.resp.CommonResponse;
 import com.gcsj.laboratory.pojo.resp.QueryResponse;
 import com.github.pagehelper.PageHelper;
@@ -24,6 +29,15 @@ public class ConsumeService {
 
     @Autowired
     private ConsumeMapper consumeMapper;
+
+    @Autowired
+    private CarApplyMapper carApplyMapper;
+
+    @Autowired
+    private ExperimentApplyMapper experimentApplyMapper;
+
+    @Autowired
+    private ExperimentMapper experimentMapper;
 
     @Transactional
     public CommonResponse<Consume> insertConsume(Consume consume) {
@@ -59,7 +73,10 @@ public class ConsumeService {
         return new CommonResponse<>(false, "修改耗材信息失败", null);
     }
 
-    public List<Consume> getAllConsumes() {
-        return this.consumeMapper.selectAll();
+    public List<Consume> getConsumesById(long carApplyId) {
+        long experimentApplyId = this.carApplyMapper.findExperimentApplyIdByCarApplyId(carApplyId);
+        long experimentId = this.experimentApplyMapper.findExperimentIdById(experimentApplyId);
+        long typeId = this.experimentMapper.findTypeIdByExperimentId(experimentId);  //获得实验类型id
+        return this.consumeMapper.selectConsumesByExperimentTypeId(typeId);   //返回该实验类型id的耗材
     }
 }

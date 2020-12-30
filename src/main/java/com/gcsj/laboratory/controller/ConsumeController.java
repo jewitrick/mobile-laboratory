@@ -29,9 +29,9 @@ public class ConsumeController {
     }
 
     //获取所有的耗材信息用于遍历
-    @GetMapping("getAllConsumes")
-    public List<Consume> getAllConsumes(){
-        return this.consumeService.getAllConsumes();
+    @GetMapping("getAllConsumes/{carApplyId}")     //carApplyId为car_apply表的id
+    public List<Consume> getAllConsumes(@PathVariable long carApplyId){
+        return this.consumeService.getConsumesById(carApplyId);
     }
 
     @GetMapping("{currentPage}/{pageSize}")

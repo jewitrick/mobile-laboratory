@@ -63,4 +63,7 @@ public interface ExperimentApplyMapper extends Mapper<ExperimentApply> {
 
     @Select("select id from experi_apply where user_id = #{id} and state=1")
     List<Long> findExperimentApplyIdByUserId(long id);
+
+    @Select("select experi_id from experi_apply where id = #{experimentApplyId}")
+    long findExperimentIdById(long experimentApplyId);
 }

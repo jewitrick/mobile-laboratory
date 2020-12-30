@@ -20,4 +20,7 @@ public interface ExperimentMapper extends Mapper<Experiment> {
     @ResultMap("experimentMap")
     @Select("select * from experiment_info where id = #{id}")
     Experiment findById(long id);
+
+    @Select("select type_id from experiment_info where id = #{experimentId}")
+    long findTypeIdByExperimentId(long experimentId);
 }

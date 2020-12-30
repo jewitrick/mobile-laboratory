@@ -91,7 +91,7 @@
         methods: {
             getExperimentDetail(){
                 axios.get("userClass/selectDetailById/"+lab.getUrlParam("id")).then(({data}) => {
-                    console.log(data)
+                    console.log(data);
                     this.ExperimentDetail_data=data;
                 });
             },

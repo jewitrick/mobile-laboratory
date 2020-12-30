@@ -36,4 +36,7 @@ public interface ConsumeMapper extends Mapper<Consume> {
             " order by experiment_type_id" +
             "</script>")
     List<Consume> selectAllConsume(Long experiment_type_id);
+
+    @Select("select * from consume where experiment_type_id = #{typeId}")
+    List<Consume> selectConsumesByExperimentTypeId(long typeId);
 }

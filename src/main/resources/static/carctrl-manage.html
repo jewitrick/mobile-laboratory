@@ -370,7 +370,8 @@
 </body>
 <script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-<script src="https://cdn.bootcss.com/element-ui/2.13.2/index.js"></script>
+<script src="js/index.js"></script>
+<!--<script src="https://cdn.bootcss.com/element-ui/2.13.2/index.js"></script>-->
 <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
 <script src="js/common.js"></script>
 <!--<script src="js/date-format.js"></script>-->
@@ -507,6 +508,9 @@
                 axios.get("car/getAllCars/experi_date/" + this.carCtrlInfo.experi_date.substring(0, 10)).then(({data}) => {
                     this.cars = data;
                 });
+                axios.get("consume/getAllConsumes/"+this.applyId).then(({data}) => {
+                    this.consumes = data;
+                });
             },
             // uploadCarApply() {
             //     axios.post("carApply/" + this.applyId + '/' + this.user.id, this.eduCarApplyInfo).then(({data}) => {
@@ -586,9 +590,6 @@
         },
         created() {
             this.verify();
-            axios.get("consume/getAllConsumes").then(({data}) => {
-                this.consumes = data;
-            });
             axios.get("carCtrl/getCarCtrl").then(({data}) => {
                 this.carCtrlData=data;
             })
