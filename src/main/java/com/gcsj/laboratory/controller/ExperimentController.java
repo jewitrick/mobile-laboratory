@@ -45,7 +45,7 @@ public class ExperimentController {
 
     //修改实验信息
     @PostMapping("/updateExperiment/{id}")
-    public CommonResponse<Experiment> updateUser(@PathVariable Long id, @RequestBody Experiment updateExperiment) {
+    public CommonResponse<Experiment> updateExperiment(@PathVariable Long id, @RequestBody Experiment updateExperiment) {
         return experimentService.updateExperiment( id, updateExperiment );
     }
 }
