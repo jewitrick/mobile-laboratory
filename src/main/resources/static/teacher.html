@@ -221,11 +221,18 @@
                                         </el-form>
                                         <div slot="footer" class="dialog-footer">
                                             <el-tooltip class="item" effect="dark" content="完成实验" placement="top-end">
-                                                <el-button type="success"
-                                                           @click="updateCtrlStatus"
-                                                           icon="el-icon-check"
-                                                           :disabled="carCtrl_detail.ctrl_status === 2"
-                                                           circle></el-button>
+                                                <el-popconfirm
+                                                        confirmButtonText="确认删除"
+                                                        cancelButtonText="取消"
+                                                        confirmButtonType="danger"
+                                                        cancelButtonType="success"
+                                                        @onConfirm="updateCtrlStatus"
+                                                        title="确认结束该实验吗？">
+                                                    <el-button type="success"
+                                                               icon="el-icon-check"
+                                                               :disabled="carCtrl_detail.ctrl_status === 2"
+                                                               circle></el-button>
+                                                </el-popconfirm>
                                             </el-tooltip>
                                         </div>
                                     </el-dialog>
@@ -252,7 +259,8 @@
 
 <script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-<script src="https://cdn.bootcss.com/element-ui/2.13.2/index.js"></script>
+<script src="js/index.js"></script>
+<!--<script src="https://cdn.bootcss.com/element-ui/2.13.2/index.js"></script>-->
 <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
 <script src="js/common.js"></script>
 <script>

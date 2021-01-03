@@ -99,9 +99,11 @@
                             <el-table-column property="name" align="center" label="班级名称"></el-table-column>
                             <el-table-column label="操作" width="120" align="center">
                                 <template slot-scope="scope">
-                                    <el-button size="mini" type="success" icon="el-icon-edit"
-                                               @click="experimentApply(scope.row.id)">
-                                    </el-button>
+                                    <el-tooltip class="item" effect="dark" content="为该班级申请实验" placement="right-start">
+                                        <el-button size="mini" type="success" icon="el-icon-edit"
+                                                   @click="experimentApply(scope.row.id)">
+                                        </el-button>
+                                    </el-tooltip>
                                 </template>
                             </el-table-column>
                         </el-table>

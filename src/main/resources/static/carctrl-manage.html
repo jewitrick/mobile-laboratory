@@ -480,13 +480,8 @@
                     this.carApply_data = data.data;
                     this.carApply_data.forEach(data => {
                         data.experimentApply.experi_date = data.experimentApply.experi_date.substring(0, 10);
-                    })
+                    });
                     this.page_data.page_total = data.total;
-                    // if (data.flag) {
-                    //     this.$message.success(data.message)
-                    // } else {
-                    //     this.$message.error(data.message)
-                    // }
                 })
             },
             page_size_change(page_size) {
