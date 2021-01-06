@@ -22,8 +22,9 @@ public class ExperimentController {
 
     @GetMapping("/getPageExperiment/{currentPage}/{pageSize}")
     public QueryResponse<Experiment> selectPageExperiment(@PathVariable("currentPage") int currentPage,
-                                                          @PathVariable("pageSize") int pageSize) {
-        return experimentService.selectPageExperiment( currentPage, pageSize );
+                                                          @PathVariable("pageSize") int pageSize,
+                                                          @RequestParam(required = false) Long type_id) {
+        return experimentService.selectPageExperiment( currentPage, pageSize, type_id );
     }
 
     @PostMapping("/addExperiment")

@@ -218,6 +218,21 @@
                                                           :rows="carCtrl_detail.carCtrlConsume.length + 1"
                                                           v-model="consumeInfo"></el-input>
                                             </el-form-item>
+                                            <el-form-item>
+                                                <el-tooltip class="item" effect="dark" content="完成实验" placement="top-end">
+                                                    <el-popconfirm
+                                                            confirmButtonText="确认删除"
+                                                            cancelButtonText="取消"
+                                                            confirmButtonType="danger"
+                                                            cancelButtonType="success"
+                                                            @onConfirm="updateCtrlStatus"
+                                                            title="确认结束该实验吗？">
+                                                        <el-button type="success"
+                                                                   icon="el-icon-check"
+                                                                   :disabled="carCtrl_detail.ctrl_status === 2"
+                                                                   circle></el-button>
+                                                    </el-popconfirm>
+                                            </el-form-item>
                                         </el-form>
                                         <div slot="footer" class="dialog-footer">
                                             <el-tooltip class="item" effect="dark" content="完成实验" placement="top-end">
@@ -230,6 +245,7 @@
                                                         title="确认结束该实验吗？">
                                                     <el-button type="success"
                                                                icon="el-icon-check"
+                                                               slot="reference"
                                                                :disabled="carCtrl_detail.ctrl_status === 2"
                                                                circle></el-button>
                                                 </el-popconfirm>

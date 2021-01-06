@@ -14,8 +14,16 @@ public interface ExperimentMapper extends Mapper<Experiment> {
             @Result(column = "type_id", property = "experimentType",
                     one = @One(select = "com.gcsj.laboratory.mapper.ExperimentTypeMapper.findById", fetchType = FetchType.EAGER))
     })
-    @Select("select id,type_id,experi_name,experi_desc from experiment_info")
-    List<Experiment> findAllExperiments();
+    @Select("<script>" +
+            "select * from experiment_info " +
+            "<where>" +
+            "<if test='type_id != null and type_id != -1'>" +
+            " and type_id = #{type_id}" +
+            "</if>" +
+            "</where>" +
+            " order by type_id" +
+            "</script>")
+    List<Experiment> findAllExperiments(long type_id);
 
     @ResultMap("experimentMap")
     @Select("select * from experiment_info where id = #{id}")

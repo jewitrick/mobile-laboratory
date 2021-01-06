@@ -69,9 +69,11 @@ public class UserClassService {
         for (long experimentApplyId : experimentApplyIdList) {
             //已通过调度中心审核的用车申请
             CarApply carApply = this.userClassMapper.findCarApplyByExperimentApplyId(experimentApplyId);
-            Long experiment_apply_id = carApply.getExperiment_apply_id();
-            ExperimentApply experimentApply = this.experimentApplyMapper.findExperimentById(experiment_apply_id);
-            experimentApplyList.add(experimentApply);
+            if (carApply != null){
+                Long experiment_apply_id = carApply.getExperiment_apply_id();
+                ExperimentApply experimentApply = this.experimentApplyMapper.findExperimentById(experiment_apply_id);
+                experimentApplyList.add(experimentApply);
+            }
         }
         PageHelper.startPage(currentPage, pageSize);
         PageInfo<ExperimentApply> pageInfo = new PageInfo<>(experimentApplyList);

@@ -78,7 +78,7 @@
                         <div style="margin-top: 20px;">
                             <el-form :inline="true">
                                 <el-form-item label="按实验类型划分">
-                                    <el-select v-model="page_data.search.experiment_type_id" placeholder="审核状态">
+                                    <el-select v-model="page_data.search.experiment_type_id" placeholder="全部">
                                         <el-option v-for="(option, index) in options" :key="option.value"
                                                    :label="option.name" :value="option.value"></el-option>
                                     </el-select>
@@ -194,7 +194,7 @@
                                                 <el-date-picker type="date" v-model="edit_consume.date"
                                                                 :picker-options="pickerOptions"
                                                                 style="width: 300px"
-                                                                placeholder="请选择出生日期"
+                                                                placeholder="请选择购入日期"
                                                                 v-model="edit_consume.date"
                                                 ></el-date-picker>
                                             </el-form-item>

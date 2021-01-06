@@ -57,12 +57,12 @@
                         <el-avatar :src="user.avatar"></el-avatar>
                       </span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>
-                            <i class="el-icon-user"></i>
-                            <el-link href="#">个人中心</el-link>
-                        </el-dropdown-item>
+                        <!--<el-dropdown-item>-->
+                            <!--<i class="el-icon-user"></i>-->
+                            <!--<el-link href="#">个人中心</el-link>-->
+                        <!--</el-dropdown-item>-->
                         <el-dropdown-item divided>
-                            <i class="el-icon-right"></i>
+                            <!--<i class="el-icon-right"></i>-->
                             <el-link @click="logout">退出</el-link>
                         </el-dropdown-item>
                     </el-dropdown-menu>
@@ -108,6 +108,7 @@
                                     </el-tooltip>
                                 </template>
                             </el-table-column>
+                            <el-table-column label="审核结果" property="result" align="center"></el-table-column>
                         </el-table>
                         <el-pagination
                                 @size-change="page_size_change"

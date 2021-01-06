@@ -18,9 +18,9 @@ public class ExperimentService {
     @Autowired
     private ExperimentMapper experimentMapper;
 
-    public List<Experiment> selectAllExperiment() {
-        return this.experimentMapper.findAllExperiments();
-    }
+//    public List<Experiment> selectAllExperiment() {
+//        return this.experimentMapper.findAllExperiments();
+//    }
 
     @Transactional
     public CommonResponse<Experiment> insertExperiment(Experiment experiment) {
@@ -50,10 +50,14 @@ public class ExperimentService {
         return new CommonResponse<Experiment>( true, "修改失败", null );
     }
 
-    public QueryResponse<Experiment> selectPageExperiment(int currentPage, int pageSize) {
+    public QueryResponse<Experiment> selectPageExperiment(int currentPage, int pageSize, long type_id) {
         PageHelper.startPage( currentPage, pageSize );
-        List<Experiment> experiments = this.experimentMapper.findAllExperiments();
+        List<Experiment> experiments = this.experimentMapper.findAllExperiments(type_id);
         PageInfo<Experiment> pageInfo = new PageInfo<>( experiments );
         return new QueryResponse<>( true, "查询成功！", experiments, pageInfo.getTotal() );
+    }
+
+    public List<Experiment> selectAllExperiment() {
+        return this.experimentMapper.selectAll();
     }
 }

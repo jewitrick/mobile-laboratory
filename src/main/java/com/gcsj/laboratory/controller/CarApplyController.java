@@ -23,6 +23,7 @@ public class CarApplyController {
     @Autowired
     private CarApplyService carApplyService;
 
+    //教育局提交用车申请
     @PostMapping("{applyId}/{userId}")
     CommonResponse<CarApply> insert(@PathVariable("applyId") Long applyId,
                                     @PathVariable("userId") Long userId,
